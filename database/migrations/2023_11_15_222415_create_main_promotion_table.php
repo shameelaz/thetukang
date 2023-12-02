@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('main_promotion', function (Blueprint $table) {
             $table->id();
+            $table->integer('fk_user')->nullable();
+            $table->integer('fk_main_service')->nullable();
+            $table->integer('fk_booking')->nullable();
             $table->string('title')->nullable();
             $table->string('desc')->nullable();
             $table->date('start_date')->nullable();

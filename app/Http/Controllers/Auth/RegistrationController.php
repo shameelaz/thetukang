@@ -51,9 +51,9 @@ class RegistrationController extends Controller
             )
         );
 
-        if (config('laravolt.platform.features.verification') === false) {
-            $user->markEmailAsVerified();
-        }
+        // if (config('laravolt.platform.features.verification') === false) {
+        //     $user->markEmailAsVerified();
+        // }
 
         event(new Registered($user));
 

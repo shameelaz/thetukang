@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('main_service', function (Blueprint $table) {
+        Schema::create('attachment_booking', function (Blueprint $table) {
             $table->id();
-            $table->integer('fk_lkp_service_type')->nullable();
-            $table->integer('fk_user')->nullable();
-            $table->string('desc')->nullable();
-            $table->integer('price')->nullable();
-            $table->string('location')->nullable();
+            $table->integer('fk_booking')->nullable();
+            $table->string('dir')->nullable();
+            $table->string('full_path')->nullable();
+            $table->string('file_name')->nullable();
+            $table->string('file_size')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('main_service');
+        Schema::dropIfExists('attachment_booking');
     }
 };

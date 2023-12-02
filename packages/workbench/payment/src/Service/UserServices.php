@@ -54,22 +54,24 @@ use Workbench\Database\Model\Agency\ServiceKodHasilDetail;
 use Workbench\Database\Model\Agency\Tetapan;
 use Workbench\Database\Model\Lkp\LkpMaster;
 use Workbench\Database\Model\Agency\LamanAgensiPerkhidmatanDalaman;
-
-
-
+use Workbench\Database\Model\Agency\LkpServiceType;
+use Workbench\Database\Model\Agency\MainService;
+use Workbench\Database\Model\Payment\AttachmentBooking;
+use Workbench\Database\Model\Payment\Booking;
 
 class UserServices
 {
 
-    public function bookList(Request $request)
+    public function bookingList(Request $request)
     {
         $user           = Auth::user()->id;
         $profile        = Users::where('id',$user)->with('profile','role')->first();
 
-        $book            = MainBooking::get();
+        $booking = Booking::get();
 
-        return $book;
+        return $booking;
     }
+
 
     public function bookAdd(Request $request)
     {
@@ -77,18 +79,128 @@ class UserServices
         $profile                        = Users::where('id',$user)->with('profile','role')->first();
 
         $book                            = new MainBooking();
+        $book->fk_user                   = $user;
         $book->fk_lkp_service_type       = $request->fk_lkp_service_type;
         $book->desc                      = $request->desc;
         $book->price                     = $request->price;
         $book->location                  = $request->location;
         $book->save();
 
-        // event(new \Workbench\Database\Events\AuditTrail(Auth::user()->id,'Menambah Maklumat Pengurusan Perkhidmatan dan Kod Hasil'));
-
     }
 
+    // ------------------- Customer Find Services--------------- //
+    public function lkpserviceType(Request $request)
+    {
+        $lkp            = LkpServiceType::get();
+
+        return $lkp;
+    }
+
+    public function searchServ($request)
+	{
+		$lkp = data_get($request, 'servicetype');
+        
+        if( $lkp == 'fk_lkp_service_type')
+        {
+            $lkp = '0';
+        }
+        else
+        {
+            $lkp = data_get($request, 'servicetype');
+        }
+
+        $data = MainService::with('lkpservicetype')
+                        ->whereHas('lkpservicetype', function ($query) use ($lkp)
+                            {
+                                if($lkp != '0')
+
+                                    $query->where('fk_lkp_service_type', '=', $lkp);
+                            })
+                        ->get();
+        // dd($data);
+
+		return $data;
+
+	}
+
+    public function viewBooking(Request $request)
+    {
+        
+        $booking            = MainService::with('lkpservicetype')->where('id', $request->servicetype)->first();
+
+        return $booking;
+    }
+
+    public function saveBooking(Request $request)
+    {
+        // dd($request->all());
+        $user                           = Auth::user()->id;
+        $profile                        = Users::where('id',$user)->with('profile','role')->first();
+
+        $book                            = new Booking();
+        $book->fk_main_service           = $request->id;
+        $book->title                     = $request->title;
+        $book->desc                      = $request->desc;
+        $book->date_booking              = date('Y-m-d',strtotime($request->date_booking));
+        $book->status                    = 1; // new booking
+        $book->save();
+        $bookId = $book->id;
+
+        if(isset($request->files))
+            {
+                $update_attachment = $this->StoreFilesBooking($request,$bookId);
+            }
+
+        return redirect()->back();
+    }
+
+    public function StoreFilesBooking($request, $bid)
+    {
+        $files = $request->files->all();
+        $file_names = $request->file_names;
+
+        $folder='booking';
+        $booking_id = $bid;
+
+        if (!file_exists(public_path().'/uploads/base/booking/'))
+        {
+            mkdir(public_path()."/uploads/base/".$folder);
+        }
+
+        if (!file_exists(public_path().'/uploads/base/booking/'.$booking_id))
+        {
+
+            mkdir(public_path()."/uploads/base/booking/".$booking_id);
+        }
+
+        $path = public_path()."/uploads/base/booking/".$booking_id;
+
+        $shortpath = "/uploads/base/booking/".$booking_id."/";
 
 
+        foreach ($files as $key => $file1)
+        {
+            foreach ($file1 as $key => $file)
+            {
+                $namafile = $file_names[$key];
+
+                $filename= $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $size= $file->getSize();
+                $file->move($path, $file->getClientOriginalName());
+
+                $svdt                           = new AttachmentBooking();
+                $svdt->fk_booking               = $booking_id;
+                $svdt->dir                      = $namafile;
+                $svdt->full_path                = $shortpath.$filename;
+                $svdt->file_name                = $filename;
+                $svdt->file_size                = $size;
+                $svdt->save();
+            }
+        }
+
+        return 0;
+    }
 
 
 

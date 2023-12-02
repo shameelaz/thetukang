@@ -120,33 +120,36 @@ class AgencyController extends Controller
         return redirect('/handyman/promotion/list')->withSuccess('Successfully Delete');
     }
 
+    // ------------------- Booking Handyman--------------- //
 
+    public function bookingList(Request $request)
+    {
 
+        $booking = (new AgencyServices())->bookingList($request);
 
+        return view('agency::booking.list', compact('booking'));
+    }
 
+    public function bookingShow(Request $request)
+    {
+        $booking = (new AgencyServices())->bookingView($request);
 
+        return view('agency::booking.edit', compact('booking'));
+    }
 
+    public function bookingModal(Request $request)
+    {
+        $booking = (new AgencyServices())->bookingView($request);
 
+        return view('agency::booking.viewmodal', compact('booking'));
+    }
 
+    public function bookingUpdate(Request $request)
+    {
+        $booking = (new AgencyServices())->bookingUpd($request);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return redirect('/home')->withSuccess('Successfully Update');
+    }
 
 
 
@@ -162,6 +165,49 @@ class AgencyController extends Controller
 
 
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

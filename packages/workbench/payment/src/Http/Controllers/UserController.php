@@ -35,7 +35,7 @@ class UserController extends Controller
     public function bookingList(Request $request)
     {
 
-        $book = (new UserServices())->bookList($request);
+        $book = (new UserServices())->bookingList($request);
 
         return view('payment::user.booking.list', compact('book'));
     }
@@ -52,11 +52,38 @@ class UserController extends Controller
     {
         $book = (new UserServices())->bookAdd($request);
 
-        return redirect('/handyman/service/list')->withSuccess('Add Data Successfully');
+        return redirect('/user/booking/list')->withSuccess('Add Data Successfully');
     }
 
+    // ------------------- Customer Find Services--------------- //
 
+    public function serviceIndex(Request $request)
+    {
+        $lkpservicetype = (new UserServices())->lkpservicetype($request);
 
+        return view('payment::user.service.index', compact('lkpservicetype'));
+    }
+
+    public function serviceSearch(Request $request)
+    {
+        $search = (new UserServices())->searchServ($request);
+
+        return view('payment::user.service.search', compact('search'));
+    }
+
+    public function serviceBooking(Request $request)
+    {
+        $booking = (new UserServices())->viewBooking($request);
+
+        return view('payment::user.service.booking', compact('booking'));
+    }
+
+    public function servicebookingSave(Request $request)
+    {
+        $book = (new UserServices())->saveBooking($request);
+
+        return redirect('/home')->withSuccess('Your Booking Successful! ');
+    }
 
 
 

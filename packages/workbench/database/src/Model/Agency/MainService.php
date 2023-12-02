@@ -17,4 +17,8 @@ class MainService extends Model
     {
         return $this->belongsTo('Workbench\Database\Model\Agency\LkpServiceType','fk_lkp_service_type');
     }
+    public function user()
+    {
+        return $this->belongsTo('Workbench\Database\Model\User\Users','fk_user');
+    }
 }

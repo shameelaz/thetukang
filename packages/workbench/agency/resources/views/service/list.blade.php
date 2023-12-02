@@ -4,7 +4,7 @@
 
     <div class="bg-light py-4">
         <div class="container">
-            <h5 class="header-style">HANDYMAN SERVICES </h5>
+            <h5 class="header-style">SERVICES </h5>
         </div>
     </div>
     <br>
@@ -32,7 +32,7 @@
                         <div class="col-md-12 col-lg-12">
 
                             <div class="table-responsive">
-                                <table id="data-table-kodhasil" class="table mt-2" style="width:100%;font-size: 12px;">
+                                <table id="data-table-kodhasil" class="table table-bordered table-striped mt-2" style="width:100%;font-size: 12px; vertical-align: middle;">
                                     <thead class="table-dark">
                                         <tr>
                                             <th style="text-align: center;">&nbsp;</th>

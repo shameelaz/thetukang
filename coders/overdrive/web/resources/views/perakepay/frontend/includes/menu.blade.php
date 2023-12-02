@@ -24,6 +24,9 @@ $agency = \Workbench\Database\Model\Agency\LamanAgensi::where('status',1)->with(
                     <li class="nav-item">
                         <a class="nav-link active" href="/home">HOME</a>
                     </li>
+                    {{-- <li class="nav-item">
+                        <a class="nav-link" href="/user/service/index">SERVICES</a>
+                    </li> --}}
                     {{-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">@lang('web::auth.agency-services')</a>
                         <ul class="dropdown-menu">
@@ -78,7 +81,7 @@ $agency = \Workbench\Database\Model\Agency\LamanAgensi::where('status',1)->with(
                             <a class="nav-link" href="/handyman/promotion/list">Promotion</a>
                         </li>
                         <li class="nav-item mr-5">
-                            <a class="nav-link" href="/handyman/service/list">Booking</a>
+                            <a class="nav-link" href="/handyman/booking/list">Booking</a>
                         </li>
                     @endif
                     {{-- <li class="nav-item dropdown">

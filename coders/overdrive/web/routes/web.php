@@ -84,7 +84,7 @@ Route::group(
 
         Route::get('user/register', ['uses' => 'UserController@formRegister'])->name('user.register');
         Route::post('user/register',['uses' => 'UserController@svRegister'])->name('user.save.ind');
-        // Route::post('user/register/company',['uses' => 'UserController@svRegComp'])->name('user.save.comp');
+        Route::post('user/register/company',['uses' => 'UserController@svRegComp'])->name('user.save.comp');
 
         // Route::get('reset-password/{token}', ['uses' => 'UserController@showResetPasswordForm'])->name('reset.password.get');
         // Route::post('reset-password', ['uses' => 'UserController@submitResetPasswordForm'])->name('reset.password.post');

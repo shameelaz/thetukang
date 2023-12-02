@@ -18,41 +18,7 @@
 <div class="container my-5">
   <h5>Welcome !</h5>
   <div class="row mt-4">
-    <div class="col-md-4">
-      <div class="box-widget stats-info">
-        <div class="row align-items-center">
-          <div class="col-3">
-            <div class="icon">
-              <i class="ri-user-2-line"></i>
-            </div>
-          </div>
-          <div class="col-9">
-            <h6 class="text-muted text-uppercase">JOB</h6>
-            <h2 class="m-0">
-                {{ $account }}
-            </h2>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="box-widget stats-success">
-        <div class="row align-items-center">
-          <div class="col-3">
-            <div class="icon">
-              <i class="ri-user-2-line"></i>
-            </div>
-          </div>
-          <div class="col-9">
-            <h6 class="text-muted text-uppercase">ONGOING</h6>
-            <h2 class="m-0">
-                {{ $payment }}
-            </h2>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
       <div class="box-widget stats-danger">
         <div class="row align-items-center">
           <div class="col-3">
@@ -61,9 +27,26 @@
             </div>
           </div>
           <div class="col-9">
+            <h6 class="text-muted text-uppercase">NEW</h6>
+            <h2 class="m-0">
+              {{ $statusNew }}
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="box-widget stats-success">
+        <div class="row align-items-center">
+          <div class="col-3">
+            <div class="icon">
+              <i class="ri-check-double-line"></i>
+            </div>
+          </div>
+          <div class="col-9">
             <h6 class="text-muted text-uppercase">COMPLETED</h6>
             <h2 class="m-0">
-                {{ $nopayment }}
+              {{ $statusSuccess }}
             </h2>
           </div>
         </div>
@@ -80,7 +63,7 @@
           <!-- Senarai Perkhidmatan Handyman -->
           <div class="gap-2">
               <div style="float: left">
-                  <h6 class="mt-2 float-left">Notification</h6>
+                  <h6 class="mt-2 float-left">BOOKING STATUS</h6>
               </div>
               {{-- <div style="float: right">
 
@@ -97,36 +80,44 @@
                   <div class="col-md-12 col-lg-12">
 
                       <div class="table-responsive">
-                          <table id="data-table-kodhasil" class="table mt-2" style="width:100%;font-size: 12px;">
+                          <table id="agencylist" class="table table-bordered table-striped mt-2" style="width:100%;font-size: 12px; vertical-align: middle;">
                               <thead class="table-dark">
                                   <tr>
                                       <th style="text-align: center;">&nbsp;</th>
-                                      <th style="text-align: center;">Services</th>
-                                      <th style="text-align: center;">Description</th>
-                                      <th style="text-align: center;">Price</th>
-                                      <th style="text-align: center;">Location</th>
-                                      <th style="text-align: center;">Action</th>
+                                      <th style="text-align: center;">TITLE</th>
+                                      <th style="text-align: center;">DESCRIPTION</th>
+                                      <th style="text-align: center;">DATE</th>
+                                      <th style="text-align: center;">PRICE (RM)</th>
+                                      <th style="text-align: center;">STATUS</th>
+                                      <th style="text-align: center;"></th>
                                   </tr>
                               </thead>
                               <tbody>
-                                  {{-- <?php $bil = 1; ?>
+                                  <?php $bil = 1; ?>
                                   @foreach ($srv as $key => $value)
                                       <tr>
-                                          <td class="text-center">{{ $bil++ }}</td>
-                                          <td class="text-center">{{ data_get($value, 'lkpservicetype.name') }}</td>
-                                          <td class="text-center">{{ data_get($value, 'desc') }}</td>
-                                          <td class="text-center">{{ data_get($value, 'price') }}</td>
-                                          <td class="text-center">{{ data_get($value, 'location') }}</td>
-                                          <td class="text-center">
-                                              <a href="/handyman/service/edit/{{ $value->id }}"
-                                                  class="btn btn-primary mr-1 mb-2" title="Update">
-                                                  <i class="ri-edit-line"></i></a>
-                                                  <a href="/handyman/service/delete/{{ $value->id }}"
-                                                      class="btn btn-primary mr-1 mb-2" title="Delete">
-                                                      <i class="ri-delete-bin-line"></i></a>
-                                          </td>
+                                        <td class="text-center">{{ $bil++}}</td>
+                                        <td class="text-center">{{ data_get($value,'title')}}</td>
+                                        <td class="text-left">{{ data_get($value,'desc')}}</td>
+                                        <td class="text-center">{{ date('d-m-Y', strtotime(data_get($value,'date_booking')))}}</td>
+                                        <td class="text-center">{{ data_get($value,'mainservice.price')}}</td>
+                                        <td class="text-center">
+                                          @if (data_get($value,'status') == 1)
+                                            New                                             
+                                          @else
+                                            Completed
+                                          @endif
+                                        </td>
+                                        <td class="text-center">
+                                          @if (data_get($value,'status') == 1)
+                                            <a href="/handyman/booking/edit/{{$value->id}}" class="btn btn-primary">Approve <i class="ri-arrow-right-line"></i></a>                                            
+                                          @else
+                                            <button class="btn btn-success" disabled>Success <i class="ri-check-double-line"></i></button>
+                                          @endif
+                                          
+                                        </td>
                                       </tr>
-                                  @endforeach --}}
+                                  @endforeach
                               </tbody>
                           </table>
                       </div>
@@ -143,8 +134,24 @@
 
 </div>
 @endsection
+
 @push('script')
 <script type="text/javascript">
   
+  $(document).ready(function(){
+      $('#agencylist').DataTable({
+          "responsive": true,
+          "scrollY": true,
+          "scrollX": true,
+          "ordering": false,
+          "info": true,
+          'iDisplayLength': 50,
+          "lengthMenu": [
+              [25, 50,100,250, -1],
+              [25, 50,100,250, "All"]
+          ],
+      });
+  });
+
 </script>
 @endpush

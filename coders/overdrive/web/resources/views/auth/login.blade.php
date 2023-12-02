@@ -50,7 +50,7 @@
 
             <button type="submit" class="btn btn-primary mt-3 w-100">Login</button>
             <div class="mt-3">
-                @lang('web::auth.new-user') <a href="/user/register"><u>New user</u></a>
+                New user? <a href="/user/register"><u>Click here</u></a>
             </div>
 
             <div class="mt-2">

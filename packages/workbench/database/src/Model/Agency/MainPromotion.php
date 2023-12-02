@@ -13,4 +13,9 @@ class MainPromotion extends Model
      */
     protected $table = 'main_promotion';
 
+    public function user()
+    {
+        return $this->belongsTo('Workbench\Database\Model\User\Users','fk_user');
+    }
+    
 }

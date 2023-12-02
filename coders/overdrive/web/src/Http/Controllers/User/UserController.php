@@ -66,8 +66,6 @@ class UserController extends Controller
      **/
     public function svRegister(Request $request)
     {
-
-
         $email = data_get($request,'email');
         $check = User::where('email',$email)->first();
         $checkid = UserProfile::where('refid',data_get($request,'refid'))->first();
@@ -75,12 +73,12 @@ class UserController extends Controller
 
         if(($check)||($checkid)){
 
-            // $error = "Sistem mendapati emel atau ID pengenalan yang dimasukkan sudah didaftarkan dalam sistem ini.Sila masukkan emel yang baru.";
+            // $error = "The system found that the entered email or identification ID is already registered in this system. Please enter a new email.";
             // $success = "";
-            // echo "<script>alert('Sistem mendapati emel atau ID pengenalan yang dimasukkan sudah didaftarkan dalam sistem ini.Sila masukkan emel yang baru');</script>";
+            // echo "<script>alert('The system found that the entered email or identification ID is already registered in this system. Please enter a new email');</script>";
             // return redirect('/user/register')->withWarning('Sila Pilih email lain');
             // return view('web::user.register.form',compact('error'));
-            return redirect('/user/register')->withWarning('Sistem mendapati emel atau ID pengenalan yang dimasukkan sudah didaftarkan dalam sistem ini.Sila masukkan emel yang baru');
+            return redirect('/user/register')->withWarning('The system found that the entered email or identification ID is already registered in this system. Please enter a new email');
 
 
         }else{
@@ -95,17 +93,16 @@ class UserController extends Controller
                     'email_verified_at' => date('Y-m-d h:i:s')
                 ]
             );
-            // );
 
-            $up = new UserProfile;
-            $up->fk_users = $user->id;
-            $up->user_level = 2; //pengguna
-            $up->flag_ptj = 0; // bukan adminptj
-            $up->user_type = data_get($request,'seltype');
-            $up->ref_type = data_get($request,'selrefid');
-            $up->refid = data_get($request,'refid');
-            $up->ref_name = data_get($request,'refname');
-            $up->mobile_no = data_get($request,'phone_no');
+            $up                 = new UserProfile;
+            $up->fk_users       = $user->id;
+            $up->user_level     = 2; //pengguna
+            $up->flag_ptj       = 0; // bukan adminptj
+            $up->user_type      = data_get($request,'seltype');
+            $up->ref_type       = data_get($request,'selrefid');
+            $up->refid          = data_get($request,'refid');
+            $up->ref_name       = data_get($request,'refname');
+            $up->mobile_no      = data_get($request,'phone_no');
             $up->save();
 
 
@@ -125,10 +122,10 @@ class UserController extends Controller
             ]);
 
 
-            Mail::send('web::email.user.newregister', ['token' => $token,'user' => $user], function($message) use($user){
-              $message->to($user->email);
-              $message->subject('The Tukang : PENGESAHAN EMEL PENDAFTARAN PENGGUNA');
-            });
+            // Mail::send('web::email.user.newregister', ['token' => $token,'user' => $user], function($message) use($user){
+            //   $message->to($user->email);
+            //   $message->subject('The Tukang : PENGESAHAN EMEL PENDAFTARAN PENGGUNA');
+            // });
 
             //uncomment
 
@@ -138,11 +135,89 @@ class UserController extends Controller
             // echo "<script>alert(''Pendaftaran berjaya. Sila semak emel anda untuk melakukan pengesahan pendaftaran');</script>";
 
             // $response = 'Pengesahan Emel telah dihantar ke email pengguna '.$user->email.' .';
-            $response = 'Pendaftaran berjaya. Sila semak emel anda untuk melakukan pengesahan pendaftaran';
+            $response = 'Registration is successful. Please enter your email and the password is "secret"';
             $request->session()->put('reg',$response);
             return redirect()->route('auth::login.show');
 
+        }
 
+
+    } //end
+
+    public function svRegComp(Request $request)
+    {
+        $email = data_get($request,'email');
+        $check = User::where('email',$email)->first();
+        $checkid = UserProfile::where('refid',data_get($request,'refid'))->first();
+
+
+        if(($check)||($checkid)){
+
+            // $error = "The system found that the entered email or identification ID is already registered in this system. Please enter a new email.";
+            // $success = "";
+            // echo "<script>alert('The system found that the entered email or identification ID is already registered in this system. Please enter a new email');</script>";
+            // return redirect('/user/register')->withWarning('Sila Pilih email lain');
+            // return view('web::user.register.form',compact('error'));
+            return redirect('/user/register')->withWarning('The system found that the entered email or identification ID is already registered in this system. Please enter a new email');
+
+
+        }else{
+
+            // Auth::login(
+            $user = User::create(
+                [
+                    'name' => strtoupper($request->name),
+                    'email' => $request->email,
+                    'status' => 1,
+                    'password'=>'$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm',
+                    'email_verified_at' => date('Y-m-d h:i:s')
+                ]
+            );
+
+            $up                 = new UserProfile;
+            $up->fk_users       = $user->id;
+            $up->user_level     = 1; //company
+            $up->flag_ptj       = 0; // bukan adminptj
+            $up->user_type      = data_get($request,'seltype');
+            $up->ref_type       = data_get($request,'selrefid');
+            $up->refid          = data_get($request,'refid');
+            $up->ref_name       = data_get($request,'refname');
+            $up->mobile_no      = data_get($request,'phone_no');
+            $up->save();
+
+
+             //--- role 2
+            $r  = new Urole;
+            $r->role_id = 4; //pengguna handyman
+            $r->user_id = $user->id;
+            $r->save();
+
+            $token = Str::random(64);
+
+            DB::table('password_resets')->insert([
+              'email' => $user->email,
+              'token' => $token,
+              'user_id'=> $user->id,
+              'created_at' => Carbon::now()
+            ]);
+
+
+            // Mail::send('web::email.user.newregister', ['token' => $token,'user' => $user], function($message) use($user){
+            //   $message->to($user->email);
+            //   $message->subject('The Tukang : PENGESAHAN EMEL PENDAFTARAN PENGGUNA');
+            // });
+
+            //uncomment
+
+
+            event(new \Workbench\Database\Events\LogResetPassword($user->email,$user->name));
+
+            // echo "<script>alert(''Pendaftaran berjaya. Sila semak emel anda untuk melakukan pengesahan pendaftaran');</script>";
+
+            // $response = 'Pengesahan Emel telah dihantar ke email pengguna '.$user->email.' .';
+            $response = 'Registration is successful. Please enter your email and the password is "secret"';
+            $request->session()->put('reg',$response);
+            return redirect()->route('auth::login.show');
 
         }
 

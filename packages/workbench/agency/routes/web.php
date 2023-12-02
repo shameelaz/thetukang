@@ -21,15 +21,19 @@ Route::group(
             Route::post('/handyman/service/update','AgencyController@serviceUpdate');
         Route::get('/handyman/service/delete/{id}','AgencyController@serviceDelete');
 
-         // Promotion Handyman
-         Route::get('/handyman/promotion/list','AgencyController@promotionList');
-         Route::get('/handyman/promotion/add','AgencyController@promotionForm');
-             Route::post('/handyman/promotion/save','AgencyController@promotionSave');
-         Route::get('/handyman/promotion/edit/{id}','AgencyController@promotionShow');
-             Route::post('/handyman/promotion/update','AgencyController@promotionUpdate');
-         Route::get('/handyman/promotion/delete/{id}','AgencyController@promotionDelete');
+        // Promotion Handyman
+        Route::get('/handyman/promotion/list','AgencyController@promotionList');
+        Route::get('/handyman/promotion/add','AgencyController@promotionForm');
+            Route::post('/handyman/promotion/save','AgencyController@promotionSave');
+        Route::get('/handyman/promotion/edit/{id}','AgencyController@promotionShow');
+            Route::post('/handyman/promotion/update','AgencyController@promotionUpdate');
+        Route::get('/handyman/promotion/delete/{id}','AgencyController@promotionDelete');
 
-
+        // Booking Handyman
+        Route::get('/handyman/booking/list','AgencyController@bookingList');
+        Route::get('/handyman/booking/edit/{id}','AgencyController@bookingShow');
+        Route::get('/handyman/booking/modal/{id}','AgencyController@bookingModal');
+            Route::post('/handyman/booking/update','AgencyController@bookingUpdate');
 
 
 

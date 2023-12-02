@@ -13,13 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('main_service', function (Blueprint $table) {
+        Schema::create('booking', function (Blueprint $table) {
             $table->id();
-            $table->integer('fk_lkp_service_type')->nullable();
+            $table->integer('fk_main_service')->nullable();
             $table->integer('fk_user')->nullable();
+            $table->string('title')->nullable();
             $table->string('desc')->nullable();
-            $table->integer('price')->nullable();
-            $table->string('location')->nullable();
+            $table->date('date_booking')->nullable();
+            $table->integer('status')->nullable();
+            $table->string('desc_handyman')->nullable();
+            $table->date('date_booking_handyman')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('main_service');
+        Schema::dropIfExists('booking');
     }
 };

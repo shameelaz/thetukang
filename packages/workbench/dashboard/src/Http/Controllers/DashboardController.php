@@ -91,9 +91,11 @@ class DashboardController extends Controller
                 $account = (new DashboardServices())->payerAcc($request);
                 $payment = (new DashboardServices())->payment($request);
                 $nopayment = (new DashboardServices())->noPayment($request);
-                
+                $srv = (new DashboardServices())->handybookingList($request);
+                $statusNew = (new DashboardServices())->statusNew($request);
+                $statusSuccess = (new DashboardServices())->statusSuccess($request);
 
-                return view('dashboard::dashboard.agency', compact('account','payment','nopayment'));
+                return view('dashboard::dashboard.agency', compact('account','payment','nopayment','srv','statusNew','statusSuccess'));
                 break;
 
             case 5:
@@ -128,7 +130,7 @@ class DashboardController extends Controller
             case 7:
                 // return view('web::backend.dashboard.index');
                 $data = array();
-                $account = (new DashboardServices())->registeredAccount($request);
+                $booking = (new DashboardServices())->bookingList($request);
                 $transaction = (new DashboardServices())->transaction($request);
                 $transberjaya= (new DashboardServices())->bil_transaction(1);
                 $transpendding= (new DashboardServices())->bil_transaction(3);
@@ -137,7 +139,7 @@ class DashboardController extends Controller
 
 
 
-                return view('dashboard::dashboard.pelanggan',compact('data','account','transaction','transberjaya','transpendding','transgagal','jumlah','userid'));
+                return view('dashboard::dashboard.pelanggan',compact('data','booking','transaction','transberjaya','transpendding','transgagal','jumlah','userid'));
 
                 break;
 
@@ -177,7 +179,7 @@ class DashboardController extends Controller
 
     public function agency()
     {
-
+       
         return view('dashboard::dashboard.agency');
     }
     public function updatetroli(Request $request)

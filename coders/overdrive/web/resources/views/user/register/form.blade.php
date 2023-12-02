@@ -98,7 +98,7 @@
                             {!! form()->close() !!}
 							  {{-- </form> --}}
 
-                              {!! form()->open()->post()->action(url('/user/register'))->attribute('id', 'myform2')->horizontal() !!}
+                              {!! form()->open()->post()->action(url('/user/register/company'))->attribute('id', 'myform2')->horizontal() !!}
 
 							    {{-- <form class="ui form" method="POST" action="{{ url('user/register') }}" id="myform2"> --}}
                                 <div id="div-comp" style="display:none;">

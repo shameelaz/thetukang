@@ -46,45 +46,67 @@ use Workbench\Database\Model\Bill\Payer;
 use Workbench\Database\Model\Payment\ServiceMain;
 use Workbench\Database\Model\Payment\ServiceMainDetail;
 use Workbench\Database\Model\Bill\Troli;
+use Workbench\Database\Model\Payment\Booking;
 
 class DashboardServices
 {
 
-    public function registeredAccount(Request $request)
+    //CUSTOMER BOOKING LIST
+    public function bookingList(Request $request)
     {
         $user = Auth::user()->id;
-        $now = Carbon::now();
-        // dd($user);
 
-        // $account = FavouriteAccount::where('fk_user', $user)
-        //                         ->where('status',1)
-        //                         ->with('fkpayeracc.codehasil.lkpperkhidmatan','fkpayeracc.fkagency','fkpayeracc.fkptj','')
-        //                         ->get();
-            // dd($account);
+        $booking = Booking::get();
 
-        // $account = FavouriteAccount::with('fkpayeracc.fkpayerbill')
-        //                         ->where('fk_user' , $user)
-        //                         ->whereHas('fkpayeracc.fkpayerbill', function ($query) use ($request)
-        //                             {
-        //                             $query->where('status', '=', 1);
-        //                             })
-        //                         ->get();
-
-        // dd($account);
-
-        $account = PayerBill::with('payeraccount.fkfavouriteaccount')
-                            ->whereHas('payeraccount.fkfavouriteaccount', function ($query) use ($user)
-                                {
-                                $query->where('fk_user', $user);
-                                })
-                            ->where('bill_end_date', '>=', $now)
-                            ->where('status', 1)
-                            ->get();
-
-                                // dd($account);
-
-        return $account;
+        return $booking;
     }
+
+
+    // HANDYMAN BOOKING LIST
+    public function handybookingList(Request $request)
+    {
+        $user = Auth::user()->id;
+
+        $booking = Booking::with('mainservice','attachmentbooking','attachmenthandymanbooking')->get();
+
+        return $booking;
+    }
+
+    public function statusNew(Request $request)
+    {
+        $user = Auth::user()->id;
+
+        $booking = Booking::where('status', 1)->count();
+
+        return $booking;
+    }
+
+    public function statusSuccess(Request $request)
+    {
+        $user = Auth::user()->id;
+
+        $booking = Booking::where('status', 2)->count();
+
+        return $booking;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public function transaction(Request $request)

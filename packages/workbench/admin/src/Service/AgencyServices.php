@@ -46,6 +46,8 @@ use Workbench\Database\Model\Agency\LkpServiceType;
 use Workbench\Database\Model\Agency\MainService;
 use Workbench\Database\Model\Agency\MainPromotion;
 use Workbench\Database\Model\Agency\Ptj;
+use Workbench\Database\Model\Payment\AttachmentHandymanBooking;
+use Workbench\Database\Model\Payment\Booking;
 
 class AgencyServices
 {
@@ -64,8 +66,12 @@ class AgencyServices
         $user           = Auth::user()->id;
         $profile        = Users::where('id',$user)->with('profile','role')->first();
 
-        $srv            = MainService::with('lkpservicetype')->get();
-
+        $srv            = MainService::with('lkpservicetype','user')
+                                    ->whereHas('user', function ($q) use($user) {
+                                        $q->where('id', $user);
+                                    })
+                                    ->get();
+        
         return $srv;
     }
 
@@ -76,6 +82,7 @@ class AgencyServices
 
         $srv                            = new MainService();
         $srv->fk_lkp_service_type       = $request->fk_lkp_service_type;
+        $srv->fk_user                   = $user;
         $srv->desc                      = $request->desc;
         $srv->price                     = $request->price;
         $srv->location                  = $request->location;
@@ -126,7 +133,11 @@ class AgencyServices
         $user           = Auth::user()->id;
         $profile        = Users::where('id',$user)->with('profile','role')->first();
 
-        $promo            = MainPromotion::get();
+        $promo            = MainPromotion::with('user')
+                                        ->whereHas('user', function ($q) use($user) {
+                                            $q->where('id', $user);
+                                        })
+                                        ->get();
 
         return $promo;
     }
@@ -137,6 +148,7 @@ class AgencyServices
         $profile                        = Users::where('id',$user)->with('profile','role')->first();
 
         $promo                            = new MainPromotion();
+        $promo->fk_user                   = $user;
         $promo->title                     = $request->title;
         $promo->desc                      = $request->desc;
         $promo->start_date                = date($request->start_date);
@@ -181,6 +193,97 @@ class AgencyServices
 
         // event(new \Workbench\Database\Events\AuditTrail(Auth::user()->id,'Mengemaskini Maklumat Pengurusan Perkhidmatan dan Kadar Bayaran'));
 
+    }
+
+     // ------------------- Booking Handyman ------------------- //
+
+     public function bookingList(Request $request)
+    {
+        $user               = Auth::user()->id;
+        $profile            = Users::where('id',$user)->with('profile','role')->first();
+
+        $booking            = Booking::with('mainservice','attachmentbooking','attachmenthandymanbooking')->get();
+
+        return $booking;
+    }
+
+    public function bookingView(Request $request)
+    {
+        $user               = Auth::user()->id;
+        $profile            = Users::where('id',$user)->with('profile','role')->first();
+
+        $booking            = Booking::with('mainservice','attachmentbooking')->where('id', $request->id)->first();
+
+        return $booking;
+    }
+ 
+    public function bookingUpd(Request $request)
+    {
+        // dd($request->all());
+        $user                           = Auth::user()->id;
+        $profile                        = Users::where('id',$user)->with('profile','role')->first();
+
+        $booking                            = Booking::where('id', $request->id)->first();
+        $booking->desc_handyman             = $request->desc_handyman;
+        $booking->date_handyman             = date($request->date_handyman);
+        $booking->status                    = 2;
+        $booking->save();
+        $bookingId = $booking->id;
+
+        if(isset($request->files))
+            {
+                $update_attachment = $this->StoreFilesBooking($request,$bookingId);
+            }
+
+        return redirect()->back();
+    }
+
+    public function StoreFilesBooking($request, $bid)
+    {
+        $files = $request->files->all();
+        $file_names = $request->file_names;
+
+        $folder='booking';
+        $booking_id = $bid;
+
+        if (!file_exists(public_path().'/uploads/base/booking/'))
+        {
+            mkdir(public_path()."/uploads/base/".$folder);
+        }
+
+        if (!file_exists(public_path().'/uploads/base/booking/'.$booking_id))
+        {
+
+            mkdir(public_path()."/uploads/base/booking/".$booking_id);
+        }
+
+        $path = public_path()."/uploads/base/booking/".$booking_id;
+
+        $shortpath = "/uploads/base/booking/".$booking_id."/";
+
+
+        foreach ($files as $key => $file1)
+        {
+            foreach ($file1 as $key => $file)
+            {
+                $namafile = $file_names[$key];
+
+                $filename= $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $size= $file->getSize();
+                $file->move($path, $file->getClientOriginalName());
+
+                $svdt                           = new AttachmentHandymanBooking();
+                $svdt->fk_booking               = $booking_id;
+                $svdt->dir                      = $namafile;
+                $svdt->full_path                = $shortpath.$filename;
+                $svdt->file_name                = $filename;
+                $svdt->file_size                = $size;
+                $svdt->save();
+            }
+        }
+
+        return 0;
     }
 
 

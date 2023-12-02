@@ -36,30 +36,40 @@
             <div class="col-md-9">
                 <div class="header-base">LIST OF BOOKING</div>
                 <div class="table-responsive mt-4">
-                    <table class="table" id="data-table-account" style="width:100%;font-size: 12px;">
-                        <thead>
-                            <tr class="table-light">
+                    <table id="data-table-account" class="table table-bordered table-striped mt-2" style="width:100%;font-size: 12px; vertical-align: middle;">
+                        <thead class="table-dark">
+                            <tr>
                                 <th style="text-align: center;">&nbsp;</th>
-                                <th style="text-align: center;">Name</th>
-                                <th style="text-align: center;">Address</th>
-                                <th style="text-align: center;">Phone Number</th>
-                                <th style="text-align: center;">Image</th>
-                                <th style="text-align: center;">Status</th>
+                                <th style="text-align: center;">TITLE</th>
+                                <th style="text-align: center;">DESCRIPTION</th>
+                                <th style="text-align: center;">DATE</th>
+                                <th style="text-align: center;">PRICE (RM)</th>
+                                <th style="text-align: center;">STATUS</th>
                                 <th style="text-align: center;"></th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $bil=1;?>
-                                @foreach($account as $key =>$value)
+                                @foreach($booking as $key =>$value)
                                     <tr>
                                         <td class="text-center">{{ $bil++}}</td>
-                                        <td class="text-center">{{ data_get($value,'account_no')}}</td>
-                                        <td class="text-center">{{ data_get($value,'name')}}</td>
-                                        <td class="text-center">{{ data_get($value,'bill_detail')}}</td>
-                                        <td class="text-center">{{ data_get($value,'amount')}}</td>
-                                        <td class="text-center">{{ data_get($value,'amount')}}</td>
+                                        <td class="text-center">{{ data_get($value,'title')}}</td>
+                                        <td class="text-left">{{ data_get($value,'desc')}}</td>
+                                        <td class="text-center">{{ date('d-m-Y', strtotime(data_get($value,'date_booking')))}}</td>
+                                        <td class="text-center">{{ number_format(data_get($value,'mainservice.price'), 2, '.', '') }} </td>
                                         <td class="text-center">
-                                          <a href="/dashboard/updatetroli/{{data_get($value,'id')}}/{{$userid}}"> @lang('web::auth.pay') {{-- Bayar --}}<i class="ri-arrow-right-line"></i></a>
+                                            @if (data_get($value,'status') == 1)
+                                                New                                             
+                                            @else
+                                                Completed
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                          @if (data_get($value,'status') == 1)
+                                            <button class="btn btn-primary" disabled>In Progress <i class="ri-timer-2-line"></i></button>
+                                          @else
+                                            <button class="btn btn-success" disabled>Success <i class="ri-check-double-line"></i></button>
+                                          @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -78,7 +88,6 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-
 
         $('#data-table-account').DataTable({
             "responsive": true,
