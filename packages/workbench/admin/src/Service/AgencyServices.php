@@ -202,7 +202,11 @@ class AgencyServices
         $user               = Auth::user()->id;
         $profile            = Users::where('id',$user)->with('profile','role')->first();
 
-        $booking            = Booking::with('mainservice','attachmentbooking','attachmenthandymanbooking')->get();
+        $booking            = Booking::with('mainservice.user','attachmentbooking','attachmenthandymanbooking')
+                                        ->whereHas('mainservice.user', function ($q) use($user) {
+                                            $q->where('fk_user', $user);
+                                        })
+                                        ->get();
 
         return $booking;
     }

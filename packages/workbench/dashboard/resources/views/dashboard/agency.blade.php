@@ -11,12 +11,11 @@
 
 <div class="bg-light py-4">
   <div class="container">
-    <h5 class="header-style m-0">DASHBOARD HANDYMAN</h5>
+    <h5 class="header-style m-0">WELCOME {{ $user->name}} !</h5>
   </div>
 </div>
 
-<div class="container my-5">
-  <h5>Welcome !</h5>
+<div class="container my-3">
   <div class="row mt-4">
     <div class="col-md-6">
       <div class="box-widget stats-danger">
@@ -56,7 +55,7 @@
 
 </div>
 
-<div class="container">
+<div class="container my-5">
 
   <div class="card style-border">
       <div class="card-header">

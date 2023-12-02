@@ -5,6 +5,8 @@
             <thead class="table-dark">
                 <tr>
                     <th style="text-align: center;">&nbsp;</th>
+                    <th style="text-align: center;">Company Name</th>
+                    <th style="text-align: center;">Phone Number</th>
                     <th style="text-align: center;">Services</th>
                     <th style="text-align: center;">Description</th>
                     <th style="text-align: center;">Location</th>
@@ -17,6 +19,8 @@
                 @foreach ($search as $key => $value)
                     <tr>
                         <td class="text-center">{{ $bil++ }}</td>
+                        <td class="text-center">{{ data_get($value, 'user.name') }}</td>
+                        <td class="text-center">{{ data_get($value, 'user.profile.mobile_no') }}</td>
                         <td class="text-center">{{ data_get($value, 'lkpservicetype.name') }}</td>
                         <td class="text-left">{{ data_get($value, 'desc') }}</td>
                         <td class="text-center">{{ data_get($value, 'location') }}</td>

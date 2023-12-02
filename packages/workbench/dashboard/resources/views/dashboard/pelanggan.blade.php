@@ -40,6 +40,8 @@
                         <thead class="table-dark">
                             <tr>
                                 <th style="text-align: center;">&nbsp;</th>
+                                <th style="text-align: center;">COMPANY NAME</th>
+                                <th style="text-align: center;">PHONE NUMBER</th>
                                 <th style="text-align: center;">TITLE</th>
                                 <th style="text-align: center;">DESCRIPTION</th>
                                 <th style="text-align: center;">DATE</th>
@@ -53,6 +55,8 @@
                                 @foreach($booking as $key =>$value)
                                     <tr>
                                         <td class="text-center">{{ $bil++}}</td>
+                                        <td class="text-center">{{ data_get($value,'mainservice.user.name')}}</td>
+                                        <td class="text-center">{{ data_get($value,'mainservice.user.profile.mobile_no')}}</td>
                                         <td class="text-center">{{ data_get($value,'title')}}</td>
                                         <td class="text-left">{{ data_get($value,'desc')}}</td>
                                         <td class="text-center">{{ date('d-m-Y', strtotime(data_get($value,'date_booking')))}}</td>

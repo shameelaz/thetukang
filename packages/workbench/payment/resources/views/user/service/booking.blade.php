@@ -18,11 +18,37 @@
 
         <div id="div-individu" style="">
             <div class="row mb-3">
-                <label for="" class="col-sm-2 col-form-label"><strong>Type of Service</strong></label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="" name="" value="{{ data_get($booking, 'lkpservicetype.name')}}" disabled>
+                <label for="" class="col-sm-2 col-form-label"><strong>Company Name</strong></label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="" name="" value="{{ data_get($booking, 'user.name')}}" disabled>
+                </div>
+
+                <label for="" class="col-sm-2 col-form-label"><strong>Phone Number</strong></label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="" name="" value="{{ data_get($booking, 'user.profile.mobile_no')}}" disabled>
                 </div>
             </div>
+
+            <div class="row mb-3">
+                <label for="" class="col-sm-2 col-form-label"><strong>Type of Service</strong></label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="" name="" value="{{ data_get($booking, 'lkpservicetype.name')}}" disabled>
+                </div>
+            
+                <label for="" class="col-sm-2 col-form-label"><strong>Price (RM)</strong></label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="" name="" value="{{ number_format(data_get($booking,'price'), 2, '.', '') }}" disabled>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="" class="col-sm-2 col-form-label"><strong>Description</strong></label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="" name="" value="{{ data_get($booking, 'lkpservicetype.desc')}}" disabled>
+                </div>
+            </div>
+
+            <hr>
 
             <div class="row mb-3">
                 <label for="" class="col-sm-2 col-form-label"><strong>Title &nbsp;<span style="color: red;">*</span></strong></label>

@@ -47,6 +47,7 @@ use Workbench\Database\Model\Payment\ServiceMain;
 use Workbench\Database\Model\Payment\ServiceMainDetail;
 use Workbench\Database\Model\Bill\Troli;
 use Workbench\Database\Model\Payment\Booking;
+use Workbench\Database\Model\User\Users;
 
 class DashboardServices
 {
@@ -56,18 +57,36 @@ class DashboardServices
     {
         $user = Auth::user()->id;
 
-        $booking = Booking::get();
+        $booking = Booking::with('mainservice.user.profile','user')
+                            ->whereHas('user', function ($q) use($user) {
+                                $q->where('id', $user);
+                            })
+                            ->get();
 
         return $booking;
     }
 
 
     // HANDYMAN BOOKING LIST
+
+    public function user(Request $request)
+    {
+        $user = Auth::user()->id;
+
+        $username = Users::where('id', $user)->first();
+        
+
+        return $username;
+    }
     public function handybookingList(Request $request)
     {
         $user = Auth::user()->id;
 
-        $booking = Booking::with('mainservice','attachmentbooking','attachmenthandymanbooking')->get();
+        $booking = Booking::with('mainservice.user','attachmentbooking','attachmenthandymanbooking')
+                            ->whereHas('mainservice.user', function ($q) use($user) {
+                                $q->where('fk_user', $user);
+                            })
+                            ->get();
 
         return $booking;
     }
@@ -76,7 +95,11 @@ class DashboardServices
     {
         $user = Auth::user()->id;
 
-        $booking = Booking::where('status', 1)->count();
+        $booking = Booking::with('mainservice.user','attachmentbooking','attachmenthandymanbooking')
+                            ->whereHas('mainservice.user', function ($q) use($user) {
+                                $q->where('fk_user', $user);
+                            })
+                            ->where('status', 1)->count();
 
         return $booking;
     }
@@ -85,7 +108,11 @@ class DashboardServices
     {
         $user = Auth::user()->id;
 
-        $booking = Booking::where('status', 2)->count();
+        $booking = Booking::with('mainservice.user','attachmentbooking','attachmenthandymanbooking')
+                            ->whereHas('mainservice.user', function ($q) use($user) {
+                                $q->where('fk_user', $user);
+                            })
+                            ->where('status', 2)->count();
 
         return $booking;
     }

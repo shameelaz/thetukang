@@ -67,7 +67,11 @@ class UserServices
         $user           = Auth::user()->id;
         $profile        = Users::where('id',$user)->with('profile','role')->first();
 
-        $booking = Booking::get();
+        $booking = Booking::with('mainservice.user.profile','user')
+                            ->whereHas('user', function ($q) use($user) {
+                                $q->where('id', $user);
+                            })
+                            ->get();
 
         return $booking;
     }
@@ -109,15 +113,15 @@ class UserServices
             $lkp = data_get($request, 'servicetype');
         }
 
-        $data = MainService::with('lkpservicetype')
-                        ->whereHas('lkpservicetype', function ($query) use ($lkp)
-                            {
-                                if($lkp != '0')
+        $data = MainService::with('lkpservicetype','user.profile')
+                            ->whereHas('lkpservicetype', function ($query) use ($lkp)
+                                {
+                                    if($lkp != '0')
 
-                                    $query->where('fk_lkp_service_type', '=', $lkp);
-                            })
-                        ->get();
-        // dd($data);
+                                        $query->where('fk_lkp_service_type', '=', $lkp);
+                                })
+                            ->get();
+        
 
 		return $data;
 
@@ -126,18 +130,18 @@ class UserServices
     public function viewBooking(Request $request)
     {
         
-        $booking            = MainService::with('lkpservicetype')->where('id', $request->servicetype)->first();
+        $booking            = MainService::with('lkpservicetype','user.profile')->where('id', $request->servicetype)->first();
 
         return $booking;
     }
 
     public function saveBooking(Request $request)
     {
-        // dd($request->all());
         $user                           = Auth::user()->id;
         $profile                        = Users::where('id',$user)->with('profile','role')->first();
 
         $book                            = new Booking();
+        $book->fk_user                   = $user;
         $book->fk_main_service           = $request->id;
         $book->title                     = $request->title;
         $book->desc                      = $request->desc;
