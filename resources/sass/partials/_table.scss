@@ -1,0 +1,23 @@
+//====== DATA TABLE
+.dataTables_length {
+    select {
+        @extend .form-select;
+        display: inline-block;
+        width: auto;
+        border: 1px solid var(--bs-gray-300);
+    }
+}
+
+.dataTables_filter {
+    input {
+        @extend .form-control;
+        @extend .rounded;
+        display: inline-block;
+        width: auto;
+        
+        &:focus {
+            box-shadow: none;
+            border-color: var(--bs-primary);
+        }
+    }
+}

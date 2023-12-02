@@ -1,0 +1,43 @@
+{
+    "name": "Web Overdrive",
+    "description": "Override Laravolt Base",
+    "type": "theme",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fezrul gg",
+            "email": "fezrul@3fresources.com.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0 | ^8.1",
+       
+    },
+    "require-dev": {
+      
+    },
+    "autoload": {
+        "psr-4": {
+            "Web\\": "src/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": [
+            "vendor/bin/phpunit --stop-on-error --stop-on-fail"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Web\\ServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "bin": ["kong-test"]
+}

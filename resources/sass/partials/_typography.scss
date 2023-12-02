@@ -1,0 +1,21 @@
+// Header
+.header-style {
+    margin: 0;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    &::after {
+        content: '';
+        height: 8px;
+        width: 8px;
+        border-radius: 1rem;
+        background: $primary;
+        margin-left: 0.5rem;
+    }
+}
+
+.header-base {
+    color: #788AA5;
+    font-weight: 600;
+    text-transform: uppercase;
+}

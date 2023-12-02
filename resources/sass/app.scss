@@ -1,0 +1,45 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+// Variables
+@import 'variables';
+
+// Modules
+@import "modules/colors";
+
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+$utilities: map-merge(
+  $utilities,
+  (
+    "width": map-merge(
+      map-get($utilities, "width"),
+      (
+        values: map-merge(
+          map-get(map-get($utilities, "width"), "values"),
+          (90: 90%),
+        ),
+      ),
+    ),
+  )
+);
+
+// Bootstrap
+@import "bootstrap/scss/utilities/api";
+@import 'bootstrap/scss/bootstrap';
+
+
+// Partials
+@import "partials/base";
+@import "partials/header";
+@import "partials/footer";
+@import "partials/component";
+@import "partials/form";
+@import "partials/list";
+@import "partials/menu_offcanvas";
+@import "partials/sizing";
+@import "partials/slider";
+@import "partials/table";
+@import "partials/typography";

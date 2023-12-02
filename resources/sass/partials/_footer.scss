@@ -1,0 +1,9 @@
+.footer-main {
+    a {
+        color: #fff;
+        text-decoration: none;
+        &:hover {
+            color: $primary;
+        }
+    }
+}
