@@ -21,4 +21,8 @@ class MainService extends Model
     {
         return $this->belongsTo('Workbench\Database\Model\User\Users','fk_user');
     }
+    public function promotion()
+    {
+        return $this->hasMany('Workbench\Database\Model\Agency\MainPromotion','fk_main_service');
+    }
 }

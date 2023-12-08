@@ -25,7 +25,7 @@
             
                 <label for="" class="col-sm-2 col-form-label"><strong>Price (RM)</strong></label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="" name="" value="{{ number_format(data_get($booking,'mainservice.price'), 2, '.', '') }}" disabled>
+                    <input type="text" class="form-control" id="" name="" value="{{ number_format(data_get($booking,'mainservice.price'), 2, '.', ',') }}" disabled>
                 </div>
             </div>
 
@@ -58,20 +58,8 @@
             <div class="row mb-3">
                 <label for="" class="col-sm-2 col-form-label"><strong>Image</strong></label>
                 
-                {{-- @foreach ($booking->attachmentbooking as $attachment)
-                    @foreach ($attachment as $file)
-                        <a href="{{URL::to($file->full_path)}}" style="width: 100%;" class="btn btn-primary btn-sm active"><i class="fi fi-rr-download" target="__blank"></i> &nbsp {{ $file->file_name }}</a>
-                    @endforeach
-                @endforeach --}}
-
                 @foreach ($booking->attachmentbooking as $attachment)
-                    @foreach ($attachment as $file)
-                        @if (is_object($file) && property_exists($file, 'full_path'))
-                            <a href="{{ URL::to($file->full_path) }}" style="width: 100%;" class="btn btn-primary btn-sm active">
-                                <i class="fi fi-rr-download" target="__blank"></i> &nbsp {{ $file->file_name }}
-                            </a>
-                        @endif
-                    @endforeach
+                    <a href="{{URL::to($attachment->full_path)}}" style="width: 100%;" class="btn btn-primary btn-sm active"><i class="fi fi-rr-download" target="__blank"></i> &nbsp {{ $attachment->file_name }}</a>
                 @endforeach
 
             </div>

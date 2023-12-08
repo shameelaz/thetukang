@@ -55,6 +55,19 @@
         $('.js-example-basic-single1').select2();
         $( ".js-example-basic-single1" ).focus();
 
+        $('#searchlist').DataTable({
+            "responsive": true,
+            "scrollY": true,
+            "scrollX": true,
+            "ordering": false,
+            "info": true,
+            'iDisplayLength': 50,
+            "lengthMenu": [
+                [25, 50, 100, 250, -1],
+                [25, 50, 100, 250, "All"]
+            ],
+        });
+
     });
 
     function search() {

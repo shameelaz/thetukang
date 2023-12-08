@@ -36,6 +36,13 @@
             </div>
 
             <div class="row mb-3">
+                <label for="" class="col-sm-2 col-form-label">Percentage (%)</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="percent" name="percent" value="" placeholder="1-100" title="Please insert 1 - 100 only" required="required">
+                </div>
+            </div>
+
+            <div class="row mb-3">
                 <label for="" class="col-sm-2 col-form-label">Start Date</label>
                 <div class="col-sm-10">
                     <input type="date" class="form-control" id="start_date" name="start_date" value="" required="required">

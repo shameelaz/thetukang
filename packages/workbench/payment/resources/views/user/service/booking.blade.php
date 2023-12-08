@@ -14,9 +14,26 @@
 
         {!! form()->open()->post()->action(url('/user/service/booking/save'))->attribute('id', 'myform')->horizontal()->multipart() !!}
 
+        @php
+            $discountPercentage = data_get($booking, 'promotion.0.percent', 0) / 100; // Assuming the percentage is stored as an integer
+            $discountprice = data_get($booking, 'price') * (1 - $discountPercentage);
+
+            $promotionPresent = data_get($booking, 'promotion.0.percent') !== null;
+            $promotionStartDate = date('d-m-Y', strtotime(data_get($booking, 'promotion.0.start_date')));
+            $promotionEndDate = date('d-m-Y', strtotime(data_get($booking, 'promotion.0.end_date')));
+            $now = \Carbon\Carbon::now(); // Store the current date without the timestamp
+            $formattedNow = $now->format('d-m-Y');
+        @endphp
+        
         <input type="hidden" name="id" value="{{ data_get($booking, 'id') }}">
+        <input type="hidden" name="pid" value="{{ data_get($booking, 'promotion.0.id') }}">
+        <input type="hidden" name="start_date" value="{{ date('d-m-Y', strtotime(data_get($booking, 'promotion.0.start_date'))) }}">
+        <input type="hidden" name="end_date" value="{{ date('d-m-Y', strtotime(data_get($booking, 'promotion.0.end_date'))) }}">
+        <input type="hidden" name="discountprice" value="{{ $discountprice }}">
+        <input type="hidden" name="percent" value="{{ data_get($booking, 'promotion.0.percent', 0) }}">
 
         <div id="div-individu" style="">
+            
             <div class="row mb-3">
                 <label for="" class="col-sm-2 col-form-label"><strong>Company Name</strong></label>
                 <div class="col-sm-4">
@@ -37,7 +54,7 @@
             
                 <label for="" class="col-sm-2 col-form-label"><strong>Price (RM)</strong></label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="" name="" value="{{ number_format(data_get($booking,'price'), 2, '.', '') }}" disabled>
+                    <input type="text" class="form-control" id="" name="" value="{{ number_format(data_get($booking,'price'), 2, '.', ',') }}" disabled>
                 </div>
             </div>
 
@@ -47,6 +64,42 @@
                     <input type="text" class="form-control" id="" name="" value="{{ data_get($booking, 'lkpservicetype.desc')}}" disabled>
                 </div>
             </div>
+
+            {{-- Promotion --}}
+            @if ($promotionPresent && $promotionStartDate <= $formattedNow && $formattedNow <= $promotionEndDate)
+
+                <!-- Display promotion details -->
+                <div class="row mb-3">
+                    <label for="" class="col-sm-2 col-form-label"><strong>Promotion Details</strong></label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="" name="" value="{{ data_get($booking, 'promotion.0.title')}} - {{ data_get($booking, 'promotion.0.desc')}}" disabled>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="" class="col-sm-2 col-form-label"><strong>Start Date Promotion</strong></label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="" name="start_date" value="{{ date('d-m-Y', strtotime(data_get($booking, 'promotion.0.start_date'))) }}" disabled>
+                    </div>
+                
+                    <label for="" class="col-sm-2 col-form-label"><strong>End Date Promotion</strong></label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="" name="end_date" value="{{ date('d-m-Y', strtotime(data_get($booking, 'promotion.0.end_date'))) }}" disabled>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="" class="col-sm-2 col-form-label"><strong>Discount (%)</strong></label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="" name="" value="{{ data_get($booking, 'promotion.0.percent') }}" disabled>
+                    </div>
+                
+                    <label for="" class="col-sm-2 col-form-label"><strong>After Discount Price (RM)</strong></label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="discountprice" name="discountprice" value="{{ number_format(($discountprice), 2, '.', '') }}" disabled>
+                    </div>
+                </div>
+            @endif
 
             <hr>
 

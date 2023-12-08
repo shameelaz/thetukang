@@ -16,7 +16,10 @@ return new class extends Migration
         Schema::create('booking', function (Blueprint $table) {
             $table->id();
             $table->integer('fk_main_service')->nullable();
+            $table->integer('fk_main_promotion')->nullable();
             $table->integer('fk_user')->nullable();
+            $table->string('discount_price')->nullable();
+            $table->string('percent')->nullable();
             $table->string('title')->nullable();
             $table->string('desc')->nullable();
             $table->date('date_booking')->nullable();

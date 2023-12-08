@@ -55,6 +55,7 @@ use Workbench\Database\Model\Agency\Tetapan;
 use Workbench\Database\Model\Lkp\LkpMaster;
 use Workbench\Database\Model\Agency\LamanAgensiPerkhidmatanDalaman;
 use Workbench\Database\Model\Agency\LkpServiceType;
+use Workbench\Database\Model\Agency\MainPromotion;
 use Workbench\Database\Model\Agency\MainService;
 use Workbench\Database\Model\Payment\AttachmentBooking;
 use Workbench\Database\Model\Payment\Booking;
@@ -113,7 +114,7 @@ class UserServices
             $lkp = data_get($request, 'servicetype');
         }
 
-        $data = MainService::with('lkpservicetype','user.profile')
+        $data = MainService::with('lkpservicetype','user.profile','promotion')
                             ->whereHas('lkpservicetype', function ($query) use ($lkp)
                                 {
                                     if($lkp != '0')
@@ -122,7 +123,7 @@ class UserServices
                                 })
                             ->get();
         
-
+        
 		return $data;
 
 	}
@@ -130,7 +131,7 @@ class UserServices
     public function viewBooking(Request $request)
     {
         
-        $booking            = MainService::with('lkpservicetype','user.profile')->where('id', $request->servicetype)->first();
+        $booking            = MainService::with('lkpservicetype','user.profile','promotion')->where('id', $request->servicetype)->first();
 
         return $booking;
     }
@@ -139,6 +140,16 @@ class UserServices
     {
         $user                           = Auth::user()->id;
         $profile                        = Users::where('id',$user)->with('profile','role')->first();
+        $now                            = Carbon::now();
+        $formattedNow                   = $now->format('Y-m-d');
+
+        $booking                        = MainService::with('lkpservicetype','user.profile','promotion')->where('id', $request->id)->first();
+        
+        $mainservice_id  = MainService::with('promotion')
+                                    ->whereHas('promotion', function ($q) use($request) {
+                                        $q->where('id', $request->pid);
+                                    })
+                                    ->first();
 
         $book                            = new Booking();
         $book->fk_user                   = $user;
@@ -148,13 +159,34 @@ class UserServices
         $book->date_booking              = date('Y-m-d',strtotime($request->date_booking));
         $book->status                    = 1; // new booking
         $book->save();
+        
+        if (count($mainservice_id->promotion) > 0)
+        
+        {
+            $promotion = MainPromotion::with('mainservice')
+                        ->whereHas('mainservice', function ($q) use($booking) {
+                            $q->where('fk_main_service', $booking->id);
+                        })
+                        ->first();
+
+            $sdate = $promotion->start_date;
+            $edate = $promotion->end_date;
+            
+            if (count($mainservice_id->promotion) > 0 && $sdate <= $formattedNow && $formattedNow <= $edate) {
+                $book->fk_main_promotion         = $request->pid;
+                $book->discount_price            = $request->discountprice;
+                $book->percent                   = $request->percent;
+                $book->save();
+            } 
+        }
+
         $bookId = $book->id;
 
         if(isset($request->files))
-            {
-                $update_attachment = $this->StoreFilesBooking($request,$bookId);
-            }
-
+        {
+            $update_attachment = $this->StoreFilesBooking($request,$bookId);
+        }
+       
         return redirect()->back();
     }
 

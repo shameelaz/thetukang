@@ -144,13 +144,16 @@ class AgencyServices
 
     public function promoAdd(Request $request)
     {
-        $user                           = Auth::user()->id;
-        $profile                        = Users::where('id',$user)->with('profile','role')->first();
+        $user                             = Auth::user()->id;
+        $profile                          = Users::where('id',$user)->with('profile','role')->first();
+        $mainservice                      = MainService::where('fk_user', $user)->first();
 
         $promo                            = new MainPromotion();
         $promo->fk_user                   = $user;
+        $promo->fk_main_service           = $mainservice->id;
         $promo->title                     = $request->title;
         $promo->desc                      = $request->desc;
+        $promo->percent                   = $request->percent;
         $promo->start_date                = date($request->start_date);
         $promo->end_date                  = date($request->end_date);
         $promo->status                    = $request->status;
@@ -177,6 +180,7 @@ class AgencyServices
         $promo                            = MainPromotion::where('id', $request->id)->first();
         $promo->title                     = $request->title;
         $promo->desc                      = $request->desc;
+        $promo->percent                   = $request->percent;
         $promo->start_date                = date($request->start_date);
         $promo->end_date                  = date($request->end_date);
         $promo->status                    = $request->status;

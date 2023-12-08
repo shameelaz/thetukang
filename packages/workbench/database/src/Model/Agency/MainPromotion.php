@@ -18,4 +18,8 @@ class MainPromotion extends Model
         return $this->belongsTo('Workbench\Database\Model\User\Users','fk_user');
     }
     
+    public function mainservice()
+    {
+        return $this->belongsTo('Workbench\Database\Model\Agency\MainService','fk_main_service', 'id');
+    }
 }

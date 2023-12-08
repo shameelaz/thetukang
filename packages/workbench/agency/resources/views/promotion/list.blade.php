@@ -38,6 +38,7 @@
                                             <th style="text-align: center;">&nbsp;</th>
                                             <th style="text-align: center;">Title</th>
                                             <th style="text-align: center;">Description</th>
+                                            <th style="text-align: center;">Discount (%)</th>
                                             <th style="text-align: center;">Start Date</th>
                                             <th style="text-align: center;">End Date</th>
                                             <th style="text-align: center;">Status</th>
@@ -51,6 +52,7 @@
                                                 <td class="text-center">{{ $bil++ }}</td>
                                                 <td class="text-center">{{ data_get($value, 'title') }}</td>
                                                 <td class="text-center">{{ data_get($value, 'desc') }}</td>
+                                                <td class="text-center">{{ data_get($value, 'percent') }}</td>
                                                 <td class="text-center">{{ date('d-m-Y', strtotime(data_get($value, 'start_date'))) }}</td>
                                                 <td class="text-center">{{ date('d-m-Y', strtotime(data_get($value, 'end_date'))) }}</td>
                                                 @if (data_get($value, 'status') == 1)

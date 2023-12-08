@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('fk_booking')->nullable();
             $table->string('title')->nullable();
             $table->string('desc')->nullable();
+            $table->string('percent')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->integer('status')->nullable();

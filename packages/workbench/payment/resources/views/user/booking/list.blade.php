@@ -56,7 +56,13 @@
                                               <td class="text-center">{{ data_get($value,'title')}}</td>
                                               <td class="text-left">{{ data_get($value,'desc')}}</td>
                                               <td class="text-center">{{ date('d-m-Y', strtotime(data_get($value,'date_booking')))}}</td>
-                                              <td class="text-center">{{ data_get($value,'mainservice.price')}}</td>
+                                              <td class="text-center">
+                                                    @if (data_get($value,'discount_price') != null)
+                                                        {{ number_format(data_get($value,'discount_price'), 2, '.', ',') }} 
+                                                    @else
+                                                        {{ number_format(data_get($value,'mainservice.price'), 2, '.', ',') }} 
+                                                    @endif
+                                              </td>
                                               <td class="text-center">
                                                 @if (data_get($value,'status') == 1)
                                                   New                                             
