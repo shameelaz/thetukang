@@ -22,11 +22,19 @@
                 <div class="col-sm-4">
                     <input type="text" class="form-control" id="" name="" value="{{ data_get($booking, 'mainservice.lkpservicetype.name')}}" disabled>
                 </div>
-            
-                <label for="" class="col-sm-2 col-form-label"><strong>Price (RM)</strong></label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" id="" name="" value="{{ number_format(data_get($booking,'mainservice.price'), 2, '.', ',') }}" disabled>
-                </div>
+
+                @if (data_get($booking, 'discount_price') != null)
+                    <label for="" class="col-sm-2 col-form-label"><strong>Price (RM)</strong></label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="" name="" value="{{ number_format(data_get($booking, 'discount_price'), 2, '.', ',') }}" disabled>
+                    </div>
+                @else
+                    <label for="" class="col-sm-2 col-form-label"><strong>Price (RM)</strong></label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="" name="" value="{{ number_format(data_get($booking,'mainservice.price'), 2, '.', ',') }}" disabled>
+                    </div>
+                @endif
+                
             </div>
 
             <div class="row mb-3">
@@ -57,10 +65,11 @@
 
             <div class="row mb-3">
                 <label for="" class="col-sm-2 col-form-label"><strong>Image</strong></label>
-                
-                @foreach ($booking->attachmentbooking as $attachment)
-                    <a href="{{URL::to($attachment->full_path)}}" style="width: 100%;" class="btn btn-primary btn-sm active"><i class="fi fi-rr-download" target="__blank"></i> &nbsp {{ $attachment->file_name }}</a>
-                @endforeach
+                <div class="col-sm-2">
+                    @foreach ($booking->attachmentbooking as $attachment)
+                        <a href="{{URL::to($attachment->full_path)}}" class="btn btn-primary btn-sm active" target="_blank"> Preview <i class="ri-eye-line"></i></a>
+                    @endforeach
+                </div>
 
             </div>
 

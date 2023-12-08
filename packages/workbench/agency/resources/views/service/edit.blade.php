@@ -26,7 +26,7 @@
                 <label for="" class="col-sm-2 col-form-label">Services</label>
                 <div class="col-sm-10">
                     <select class="js-example-basic-single1" id="fk_lkp_service_type" name="fk_lkp_service_type" style="width: 100%">
-                        <option value=""> Sila Pilih</option>
+                        <option value=""> Please Select</option>
                         @foreach($lkpservicetype as $key => $value)
                             <option value="{{$value->id}}" <?php if($value->id == $viewsrv->fk_lkp_service_type){echo "selected";}?>  > {{ $value->name }} </option>
                         @endforeach

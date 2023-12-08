@@ -50,7 +50,7 @@
                                                 <td class="text-center">{{ $bil++ }}</td>
                                                 <td class="text-center">{{ data_get($value, 'lkpservicetype.name') }}</td>
                                                 <td class="text-center">{{ data_get($value, 'desc') }}</td>
-                                                <td class="text-center">{{ number_format(data_get($value,'price'), 2, '.', '') }}</td>
+                                                <td class="text-center">{{ number_format(data_get($value,'price'), 2, '.', ',') }}</td>
                                                 <td class="text-center">{{ data_get($value, 'location') }}</td>
                                                 <td class="text-center">
                                                     <a href="/handyman/service/edit/{{ $value->id }}"

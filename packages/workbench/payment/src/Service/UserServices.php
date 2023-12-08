@@ -68,7 +68,7 @@ class UserServices
         $user           = Auth::user()->id;
         $profile        = Users::where('id',$user)->with('profile','role')->first();
 
-        $booking = Booking::with('mainservice.user.profile','user')
+        $booking = Booking::with('mainservice.user.profile','user','attachmenthandymanbooking')
                             ->whereHas('user', function ($q) use($user) {
                                 $q->where('id', $user);
                             })

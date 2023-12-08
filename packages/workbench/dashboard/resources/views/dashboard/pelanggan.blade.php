@@ -47,7 +47,6 @@
                                 <th style="text-align: center;">DATE</th>
                                 <th style="text-align: center;">PRICE (RM)</th>
                                 <th style="text-align: center;">STATUS</th>
-                                <th style="text-align: center;"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,13 +64,6 @@
                                              {{ number_format(data_get($value,'discount_price'), 2, '.', ',') }} 
                                             @else
                                                 {{ number_format(data_get($value,'mainservice.price'), 2, '.', ',') }} 
-                                            @endif
-                                        </td>
-                                        <td class="text-center">
-                                            @if (data_get($value,'status') == 1)
-                                                New                                             
-                                            @else
-                                                Completed
                                             @endif
                                         </td>
                                         <td class="text-center">

@@ -42,8 +42,8 @@
                                             <th style="text-align: center;">DESCRIPTION</th>
                                             <th style="text-align: center;">DATE</th>
                                             <th style="text-align: center;">PRICE (RM)</th>
+                                            <th style="text-align: center;">IMAGE</th>
                                             <th style="text-align: center;">STATUS</th>
-                                            <th style="text-align: center;"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -64,11 +64,9 @@
                                                     @endif
                                               </td>
                                               <td class="text-center">
-                                                @if (data_get($value,'status') == 1)
-                                                  New                                             
-                                                @else
-                                                  Completed
-                                                @endif
+                                                @foreach ($value->attachmenthandymanbooking as $attachment)
+                                                    <a href="{{URL::to($attachment->full_path)}}" class="btn btn-primary btn-sm active" target="_blank"> Preview <i class="ri-eye-line"></i></a>
+                                                @endforeach
                                               </td>
                                               <td class="text-center">
                                                 @if (data_get($value,'status') == 1)
@@ -76,7 +74,6 @@
                                                 @else
                                                     <button class="btn btn-success" disabled>Success <i class="ri-check-double-line"></i></button>
                                                 @endif
-                                                
                                               </td>
                                             </tr>
                                         @endforeach
