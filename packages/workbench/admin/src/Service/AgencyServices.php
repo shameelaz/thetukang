@@ -227,22 +227,28 @@ class AgencyServices
  
     public function bookingUpd(Request $request)
     {
-        // dd($request->all());
         $user                           = Auth::user()->id;
         $profile                        = Users::where('id',$user)->with('profile','role')->first();
 
-        $booking                            = Booking::where('id', $request->id)->first();
-        $booking->desc_handyman             = $request->desc_handyman;
-        $booking->date_handyman             = date($request->date_handyman);
-        $booking->status                    = 2;
-        $booking->save();
-        $bookingId = $booking->id;
+        if ($request->jenis == 1) {
+            $booking                            = Booking::where('id', $request->id)->first();
+            $booking->desc_handyman             = $request->desc_handyman;
+            $booking->date_handyman             = date($request->date_handyman);
+            $booking->status                    = 2;
+            $booking->save();
+            $bookingId = $booking->id;
 
-        if(isset($request->files))
-            {
-                $update_attachment = $this->StoreFilesBooking($request,$bookingId);
-            }
-
+            if(isset($request->files))
+                {
+                    $update_attachment = $this->StoreFilesBooking($request,$bookingId);
+                }
+        } else {
+            $booking                            = Booking::where('id', $request->id)->first();
+            $booking->desc_reject_handyman      = $request->desc_reject_handyman;
+            $booking->status                    = 3;
+            $booking->save();
+        }
+        
         return redirect()->back();
     }
 

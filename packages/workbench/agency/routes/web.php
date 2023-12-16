@@ -31,8 +31,8 @@ Route::group(
 
         // Booking Handyman
         Route::get('/handyman/booking/list','AgencyController@bookingList');
-        Route::get('/handyman/booking/edit/{id}','AgencyController@bookingShow');
-        Route::get('/handyman/booking/modal/{id}','AgencyController@bookingModal');
+        Route::get('/handyman/booking/edit/{id}/{jenis}','AgencyController@bookingShow');
+        Route::get('/handyman/booking/modal/{id}/{jenis}','AgencyController@bookingModal');
             Route::post('/handyman/booking/update','AgencyController@bookingUpdate');
 
 

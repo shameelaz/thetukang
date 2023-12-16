@@ -17,8 +17,8 @@
 
 <div class="container my-3">
   <div class="row mt-4">
-    <div class="col-md-6">
-      <div class="box-widget stats-danger">
+    <div class="col-md-4">
+      <div class="box-widget stats-info">
         <div class="row align-items-center">
           <div class="col-3">
             <div class="icon">
@@ -34,7 +34,24 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
+      <div class="box-widget stats-danger">
+        <div class="row align-items-center">
+          <div class="col-3">
+            <div class="icon">
+              <i class="ri-close-line"></i>
+            </div>
+          </div>
+          <div class="col-9">
+            <h6 class="text-muted text-uppercase">REJECTED</h6>
+            <h2 class="m-0">
+              {{ $statusRejected }}
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
       <div class="box-widget stats-success">
         <div class="row align-items-center">
           <div class="col-3">
@@ -52,7 +69,6 @@
       </div>
     </div>
   </div>
-
 </div>
 
 <div class="container my-5">
@@ -108,20 +124,25 @@
                                         </td>
                                         <td class="text-center">
                                           @if (data_get($value,'status') == 1)
-                                            New                                             
+                                              New                                             
+                                          @elseif (data_get($value,'status') == 3)
+                                              Rejected
                                           @else
-                                            Completed
+                                              Completed
                                           @endif
                                         </td>
                                         <td class="text-center">
                                           @if (data_get($value,'status') == 1)
-                                            <a href="/handyman/booking/edit/{{$value->id}}" class="btn btn-primary">Approve <i class="ri-arrow-right-line"></i></a>                                            
-                                            <a href="/handyman/booking/edit/{{$value->id}}" class="btn btn-danger">Reject <i class="ri-close-line"></i></a>                                            
+                                              <a href="/handyman/booking/edit/{{$value->id}}/1" class="btn btn-primary">Approve <i class="ri-arrow-right-line"></i></a>     
+                                              <a href="/handyman/booking/edit/{{$value->id}}/2" class="btn btn-danger">Reject <i class="ri-close-line"></i></a>                                            
+                                          @elseif (data_get($value,'status') == 3)
+                                              <button class="btn btn-danger" disabled>Rejected <i class="ri-close-line"></i></button>
                                           @else
-                                            <button class="btn btn-success" disabled>Success <i class="ri-check-double-line"></i></button>
+                                              <button class="btn btn-success" disabled>Success <i class="ri-check-double-line"></i></button>
                                           @endif
                                           
                                         </td>
+
                                       </tr>
                                   @endforeach
                               </tbody>

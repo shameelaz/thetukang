@@ -94,9 +94,10 @@ class DashboardController extends Controller
                 $srv = (new DashboardServices())->handybookingList($request);
                 $statusNew = (new DashboardServices())->statusNew($request);
                 $statusSuccess = (new DashboardServices())->statusSuccess($request);
+                $statusRejected = (new DashboardServices())->statusRejected($request);
                 $user = (new DashboardServices())->user($request);
 
-                return view('dashboard::dashboard.agency', compact('account','payment','nopayment','srv','statusNew','statusSuccess','user'));
+                return view('dashboard::dashboard.agency', compact('account','payment','nopayment','srv','statusNew','statusSuccess','statusRejected','user'));
                 break;
 
             case 5:

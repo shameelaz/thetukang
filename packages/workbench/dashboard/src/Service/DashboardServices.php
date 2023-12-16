@@ -117,6 +117,20 @@ class DashboardServices
         return $booking;
     }
 
+    public function statusRejected(Request $request)
+    {
+        $user = Auth::user()->id;
+
+        $booking = Booking::with('mainservice.user','attachmentbooking','attachmenthandymanbooking')
+                            ->whereHas('mainservice.user', function ($q) use($user) {
+                                $q->where('fk_user', $user);
+                            })
+                            ->where('status', 3)->count();
+
+        return $booking;
+    }
+
+
 
 
 

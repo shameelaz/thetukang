@@ -15,6 +15,7 @@
         <div class="card-body p-md-4">
 
         <input type="hidden" name="id" value="{{ data_get($booking,'id') }}"/>
+        <input type="hidden" name="jenis" value="{{ $jenis }}"/>
 
         <div id="div-individu" style="">
             <div class="row mb-3">
@@ -75,10 +76,15 @@
 
             <br>
             <a href="/home" class="btn btn-dark">Back</a>
-            {{-- <button type="submit" class="btn btn-primary">Click here for update the booking!</button> --}}
-            <a onclick="modalBooking({{ data_get($booking, 'id')}})" class="btn btn-primary">
-                Click here for update the booking!
-            </a>
+            @if ($jenis == 1)
+                <a onclick="modalBooking({{ data_get($booking, 'id')}})({{$jenis}})" class="btn btn-primary">
+                    Update
+                </a>
+            @else
+                <a onclick="modalBooking({{ data_get($booking, 'id')}})({{$jenis}})" class="btn btn-danger">
+                    Reject
+                </a>
+            @endif
         </div>
 
         </div>
@@ -88,36 +94,57 @@
     <div class="modal fade " id="bookingupdate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Update Booking</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
                 <input type="hidden" name="id" value="{{ data_get($booking,'id') }}"/>
-                <div class="modal-body">
-                    <div class="row mb-3">
-                        <label for="" class="col-sm-2 col-form-label"><strong>Description &nbsp;<span style="color: red;">*</span></strong></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="desc_handyman" name="desc_handyman" value="" required>
+                <input type="hidden" name="jenis" value="{{ $jenis }}"/>
+
+                @if ($jenis == 1)
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Update Booking</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <label for="" class="col-sm-2 col-form-label"><strong>Description &nbsp;<span style="color: red;">*</span></strong></label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="desc_handyman" name="desc_handyman" value="" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="" class="col-sm-2 col-form-label"><strong>Date &nbsp;<span style="color: red;">*</span></strong></label>
+                            <div class="col-sm-10">
+                                <input type="date" class="form-control" id="date_handyman" name="date_handyman" value="" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="" class="col-sm-2 col-form-label"><strong>Image &nbsp;<span style="color: red;">*</span></strong></label>
+                            <div class="col-sm-10">
+                                <button type="button" class="btn btn-secondary btn-small btn-sm active" id="add-file-btn" style="float:left">Add Image</button>
+                                <br><br>
+                                <div id="file-container"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <label for="" class="col-sm-2 col-form-label"><strong>Date &nbsp;<span style="color: red;">*</span></strong></label>
-                        <div class="col-sm-10">
-                            <input type="date" class="form-control" id="date_handyman" name="date_handyman" value="" required>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                @else
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Reject Booking</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <label for="" class="col-sm-2 col-form-label"><strong>Description &nbsp;<span style="color: red;">*</span></strong></label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="desc_reject_handyman" name="desc_reject_handyman" value="" required>
+                            </div>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <label for="" class="col-sm-2 col-form-label"><strong>Image &nbsp;<span style="color: red;">*</span></strong></label>
-                        <div class="col-sm-10">
-                            <button type="button" class="btn btn-secondary btn-small btn-sm active" id="add-file-btn" style="float:left">Add Image</button>
-                            <br><br>
-                            <div id="file-container"></div>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Confirm</button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </div>
+                @endif
+
             </div>
         </div>
     </div>
@@ -148,14 +175,13 @@
     });
 
     // VIEW MODAL (PELAJAR)
-    function modalBooking(id)
+    function modalBooking(id, jenis)
     {
-
         $('#bookingupdate').modal('show');
 
         $.ajax(
         {
-            url: "{{ URL::to('handyman/booking/modal') }}" + "/" + id,
+            url: "{{ URL::to('handyman/booking/modal') }}" + "/" + id + "/" + jenis,
             type: "get",
 
             beforeSend: function() 

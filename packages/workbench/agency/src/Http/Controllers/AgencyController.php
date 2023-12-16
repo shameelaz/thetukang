@@ -124,7 +124,6 @@ class AgencyController extends Controller
 
     public function bookingList(Request $request)
     {
-
         $booking = (new AgencyServices())->bookingList($request);
 
         return view('agency::booking.list', compact('booking'));
@@ -132,16 +131,18 @@ class AgencyController extends Controller
 
     public function bookingShow(Request $request)
     {
+        $jenis = $request->jenis;
         $booking = (new AgencyServices())->bookingView($request);
-
-        return view('agency::booking.edit', compact('booking'));
+        
+        return view('agency::booking.edit', compact('booking','jenis'));
     }
 
     public function bookingModal(Request $request)
     {
+        $jenis = $request->jenis;
         $booking = (new AgencyServices())->bookingView($request);
 
-        return view('agency::booking.viewmodal', compact('booking'));
+        return view('agency::booking.viewmodal', compact('booking','jenis'));
     }
 
     public function bookingUpdate(Request $request)

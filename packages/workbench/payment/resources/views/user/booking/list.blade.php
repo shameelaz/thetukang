@@ -43,7 +43,7 @@
                                             <th style="text-align: center;">DESCRIPTION</th>
                                             <th style="text-align: center;">DATE</th>
                                             <th style="text-align: center;">PRICE (RM)</th>
-                                            <th style="text-align: center;">IMAGE</th>
+                                            <th style="text-align: center;">IMAGE/ACTION</th>
                                             <th style="text-align: center;">STATUS</th>
                                             <th style="text-align: center;">RATE</th>
                                         </tr>
@@ -57,7 +57,7 @@
                                               <td class="text-center">{{ data_get($value,'mainservice.user.profile.mobile_no')}}</td>
                                               <td class="text-center">{{ data_get($value,'title')}}</td>
                                               <td class="text-left">{{ data_get($value,'desc')}}</td>
-                                              <td class="text-center">{{ date('d-m-Y', strtotime(data_get($value,'date_booking')))}}</td>
+                                              <td class="text-center">{{ date('d/m/Y', strtotime(data_get($value,'date_booking')))}}</td>
                                               <td class="text-center">
                                                     @if (data_get($value,'discount_price') != null)
                                                         {{ number_format(data_get($value,'discount_price'), 2, '.', ',') }} 
@@ -66,13 +66,19 @@
                                                     @endif
                                               </td>
                                               <td class="text-center">
-                                                @foreach ($value->attachmenthandymanbooking as $attachment)
-                                                    <a href="{{URL::to($attachment->full_path)}}" class="btn btn-danger btn-sm active" target="_blank">Preview <i class="ri-eye-line"></i></a>
-                                                @endforeach
+                                                    @foreach ($value->attachmenthandymanbooking as $attachment)
+                                                        <a href="{{URL::to($attachment->full_path)}}" class="btn btn-secondary btn-sm active" target="_blank">Preview <i class="ri-eye-line"></i></a> <br>
+                                                    @endforeach
+                                                @if (data_get($value,'status') == 3)
+                                                    {{ data_get($value,'desc_reject_handyman')}}
+                                                
+                                                @endif
                                               </td>
                                               <td class="text-center">
                                                 @if (data_get($value,'status') == 1)
                                                     <button class="btn btn-primary" disabled>In Progress <i class="ri-timer-2-line"></i></button>
+                                                @elseif (data_get($value,'status') == 3)
+                                                    <button class="btn btn-danger" disabled>Rejected <i class="ri-close-line"></i></button>
                                                 @else
                                                     <button class="btn btn-success" disabled>Success <i class="ri-check-double-line"></i></button>
                                                 @endif
@@ -90,6 +96,10 @@
                                                     <i class="ri-star-line"></i><i class="ri-star-line"></i><i class="ri-star-line"></i><i class="ri-star-line"></i>
                                                 @elseif (data_get($value,'fk_lkp_rating') != null && data_get($value,'rating.status') == 5)
                                                     <i class="ri-star-line"></i><i class="ri-star-line"></i><i class="ri-star-line"></i><i class="ri-star-line"></i><i class="ri-star-line"></i>
+                                                @elseif (data_get($value,'status') == 3 && data_get($value,'fk_lkp_rating') == null)
+                                                    -
+                                                @else
+                                                    -
                                                 @endif                                     
                                               </td>
                                             </tr>
@@ -140,7 +150,7 @@
                 "scrollX": true,
                 "ordering": false,
                 "info": true,
-                'iDisplayLength': 50,
+                'iDisplayLength': 25,
                 "lengthMenu": [
                     [25, 50,100,250, -1],
                     [25, 50,100,250, "All"]

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->integer('status')->nullable();
             $table->string('desc_handyman')->nullable();
             $table->date('date_booking_handyman')->nullable();
+            $table->string('desc_reject_handyman')->nullable();
             $table->timestamps();
         });
     }
