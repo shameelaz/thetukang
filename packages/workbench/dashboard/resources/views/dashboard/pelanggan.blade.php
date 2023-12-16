@@ -97,7 +97,7 @@
             "scrollX": true,
             "ordering": false,
             "info": true,
-            'iDisplayLength': 50,
+            'iDisplayLength': 5,
             "lengthMenu": [
                 [25, 50,100,250, -1],
                 [25, 50,100,250, "All"]

@@ -29,6 +29,9 @@ class Booking extends Model
     {
         return $this->belongsTo('Workbench\Database\Model\User\Users','fk_user');
     }
+    public function rating()
+    {
+        return $this->belongsTo('Workbench\Database\Model\Payment\Rating','fk_lkp_rating', 'id');
+    }
     
-
 }

@@ -116,6 +116,7 @@
                                         <td class="text-center">
                                           @if (data_get($value,'status') == 1)
                                             <a href="/handyman/booking/edit/{{$value->id}}" class="btn btn-primary">Approve <i class="ri-arrow-right-line"></i></a>                                            
+                                            <a href="/handyman/booking/edit/{{$value->id}}" class="btn btn-danger">Reject <i class="ri-close-line"></i></a>                                            
                                           @else
                                             <button class="btn btn-success" disabled>Success <i class="ri-check-double-line"></i></button>
                                           @endif
@@ -150,7 +151,7 @@
           "scrollX": true,
           "ordering": false,
           "info": true,
-          'iDisplayLength': 50,
+          'iDisplayLength': 5,
           "lengthMenu": [
               [25, 50,100,250, -1],
               [25, 50,100,250, "All"]

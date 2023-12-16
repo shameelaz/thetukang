@@ -22,6 +22,9 @@ Route::group(
         Route::get('/user/booking/edit/{id}','UserController@bookingShow');
             Route::post('/user/booking/update','UserController@bookingUpdate');
         Route::get('/user/booking/delete/{id}','UserController@bookingDelete');
+        Route::get('/user/rating/modal/{id}','UserController@ratingForm');
+            Route::post('/user/rating/save','UserController@ratingSave');
+
 
         // Find Service Customer
         Route::get('/user/service/index','UserController@serviceIndex');

@@ -4,7 +4,9 @@ namespace Workbench\Payment\Service;
 
 use Illuminate\Routing\Controller;
 use Workbench\Database\Model\Agency\Agency;
+use Workbench\Database\Model\Agency\LkpRating;
 use Workbench\Database\Model\Agency\Ptj;
+use Workbench\Database\Model\Payment\Rating;
 use Workbench\Database\Model\User\Users;
 use Workbench\Database\Model\User\AclRoleUser;
 use Workbench\Database\Model\User\APermission;
@@ -66,14 +68,13 @@ class UserServices
     public function bookingList(Request $request)
     {
         $user           = Auth::user()->id;
-        $profile        = Users::where('id',$user)->with('profile','role')->first();
 
-        $booking = Booking::with('mainservice.user.profile','user','attachmenthandymanbooking')
+        $booking = Booking::with('mainservice.user.profile','user','attachmenthandymanbooking','rating')
                             ->whereHas('user', function ($q) use($user) {
                                 $q->where('id', $user);
                             })
                             ->get();
-
+        
         return $booking;
     }
 
@@ -81,7 +82,6 @@ class UserServices
     public function bookAdd(Request $request)
     {
         $user                           = Auth::user()->id;
-        $profile                        = Users::where('id',$user)->with('profile','role')->first();
 
         $book                            = new MainBooking();
         $book->fk_user                   = $user;
@@ -90,6 +90,42 @@ class UserServices
         $book->price                     = $request->price;
         $book->location                  = $request->location;
         $book->save();
+
+    }
+
+    public function lkprating(Request $request)
+    {
+        $user           = Auth::user()->id;
+
+        $lkprating         = LkpRating::get();
+
+        return $lkprating;
+    }
+
+    public function rateView(Request $request)
+    {
+        $user               = Auth::user()->id;
+        $profile            = Users::where('id',$user)->with('profile','role')->first();
+
+        $booking            = Booking::with('mainservice','attachmentbooking')->where('id', $request->id)->first();
+
+        return $booking;
+    }
+
+    public function rateAdd(Request $request)
+    {
+        $user                           = Auth::user()->id;
+
+        $rate                           = new Rating();
+        $rate->fk_lkp_rating            = $request->status;
+        $rate->fk_booking               = $request->id;
+        $rate->desc                     = $request->desc;
+        $rate->status                   = $request->status;
+        $rate->save();
+
+        $booking                        = Booking::with('mainservice','attachmentbooking')->where('id', $request->id)->first();
+        $booking->fk_lkp_rating         = $rate->id;
+        $booking->save();
 
     }
 

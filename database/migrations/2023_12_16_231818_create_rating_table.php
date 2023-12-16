@@ -13,20 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('booking', function (Blueprint $table) {
+        Schema::create('rating', function (Blueprint $table) {
             $table->id();
-            $table->integer('fk_main_service')->nullable();
-            $table->integer('fk_main_promotion')->nullable();
-            $table->integer('fk_user')->nullable();
             $table->integer('fk_lkp_rating')->nullable();
-            $table->string('discount_price')->nullable();
-            $table->string('percent')->nullable();
-            $table->string('title')->nullable();
+            $table->integer('fk_booking')->nullable();
+            $table->string('image')->nullable();
             $table->string('desc')->nullable();
-            $table->date('date_booking')->nullable();
             $table->integer('status')->nullable();
-            $table->string('desc_handyman')->nullable();
-            $table->date('date_booking_handyman')->nullable();
             $table->timestamps();
         });
     }
@@ -38,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('booking');
+        Schema::dropIfExists('rating');
     }
 };

@@ -54,6 +54,20 @@ class UserController extends Controller
 
         return redirect('/user/booking/list')->withSuccess('Add Data Successfully');
     }
+    public function ratingForm(Request $request)
+    {
+        $lkprating = (new UserServices())->lkprating($request);
+        $rate = (new UserServices())->rateView($request);
+
+        return view('payment::user.booking.rateModal', compact('rate','lkprating'));
+    }
+
+    public function ratingSave(Request $request)
+    {
+        $rate = (new UserServices())->rateAdd($request);
+
+        return redirect('/user/booking/list')->withSuccess('Successfully Rate');
+    }
 
     // ------------------- Customer Find Services--------------- //
 

@@ -1,5 +1,6 @@
 @extends('web::perakepay.frontend.layouts.base')
 <!-- extends('web::backend.layouts.base') -->
+
 @section('content')
 
     <div class="bg-light py-4">
@@ -44,6 +45,7 @@
                                             <th style="text-align: center;">PRICE (RM)</th>
                                             <th style="text-align: center;">IMAGE</th>
                                             <th style="text-align: center;">STATUS</th>
+                                            <th style="text-align: center;">RATE</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -65,7 +67,7 @@
                                               </td>
                                               <td class="text-center">
                                                 @foreach ($value->attachmenthandymanbooking as $attachment)
-                                                    <a href="{{URL::to($attachment->full_path)}}" class="btn btn-primary btn-sm active" target="_blank"> Preview <i class="ri-eye-line"></i></a>
+                                                    <a href="{{URL::to($attachment->full_path)}}" class="btn btn-danger btn-sm active" target="_blank">Preview <i class="ri-eye-line"></i></a>
                                                 @endforeach
                                               </td>
                                               <td class="text-center">
@@ -74,6 +76,21 @@
                                                 @else
                                                     <button class="btn btn-success" disabled>Success <i class="ri-check-double-line"></i></button>
                                                 @endif
+                                              </td>
+                                              <td class="text-center">
+                                                @if (data_get($value,'status') != 1 && data_get($value,'fk_lkp_rating') == null)
+                                                    <a onclick="modalRate({{ data_get($value, 'id')}})" class="btn btn-warning"><i class="ri-star-line"></i></a>
+                                                @elseif (data_get($value,'fk_lkp_rating') != null && data_get($value,'rating.status') == 1)
+                                                    <i class="ri-star-line"></i>
+                                                @elseif (data_get($value,'fk_lkp_rating') != null && data_get($value,'rating.status') == 2)
+                                                    <i class="ri-star-line"></i><i class="ri-star-line"></i>
+                                                @elseif (data_get($value,'fk_lkp_rating') != null && data_get($value,'rating.status') == 3)
+                                                    <i class="ri-star-line"></i><i class="ri-star-line"></i><i class="ri-star-line"></i>
+                                                @elseif (data_get($value,'fk_lkp_rating') != null && data_get($value,'rating.status') == 4)
+                                                    <i class="ri-star-line"></i><i class="ri-star-line"></i><i class="ri-star-line"></i><i class="ri-star-line"></i>
+                                                @elseif (data_get($value,'fk_lkp_rating') != null && data_get($value,'rating.status') == 5)
+                                                    <i class="ri-star-line"></i><i class="ri-star-line"></i><i class="ri-star-line"></i><i class="ri-star-line"></i><i class="ri-star-line"></i>
+                                                @endif                                     
                                               </td>
                                             </tr>
                                         @endforeach
@@ -91,6 +108,22 @@
 
     </div>
     <br />
+
+   
+    <div class="modal fade " id="ratingsave" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Rate Booking</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="loadmodalcontent" style="font-size:12px !important">
+
+                </div>
+            </div>
+        </div>
+    </div>
+   
 @endsection
 
 
@@ -114,6 +147,34 @@
                 ],
             });
         });
+
+        // VIEW MODAL (RATE)
+        function modalRate(id)
+        {
+
+            
+
+            $.ajax(
+            {
+                url: "{{ URL::to('user/rating/modal') }}" + "/" + id,
+                type: "get",
+
+                beforeSend: function() 
+                {
+                    $('#ratingsave').modal('show');
+
+                    document.getElementById('loadmodalcontent').innerHTML = '<div class="align-items-center text-center"><strong>Loading...</strong><div class="spinner-border s-auto" role="status" aria-hidden="true"></div></div>';
+                    // document.getElementById("loader").classList.add("show");
+                },
+                success: function(result) 
+                {
+                    document.getElementById('loadmodalcontent').innerHTML = result;
+                    // document.getElementById("loader").classList.remove("show");
+
+                    // $("#div-result").html(result);
+                }
+            });
+        }
         
     </script>
 
