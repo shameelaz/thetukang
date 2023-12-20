@@ -43,8 +43,14 @@ $agency = \Workbench\Database\Model\Agency\LamanAgensi::where('status',1)->with(
                         </li>
                     @elseif (((Auth::user()->roles['0']->id) == 2))
                         <li class="nav-item mr-5">
+                            <a class="nav-link" href="/admin/users/list">Users</a>
+                        </li>
+                        <li class="nav-item mr-5">
                             <a class="nav-link" href="/admin/servicetype/list">Services</a>
                         </li>
+                        {{-- <li class="nav-item mr-5">
+                            <a class="nav-link" href="/admin/rating/list">Rating</a>
+                        </li> --}}
                     @endif
                 </ul>
 

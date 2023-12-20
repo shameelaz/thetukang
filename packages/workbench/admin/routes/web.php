@@ -24,6 +24,14 @@ Route::group(
             Route::post('/admin/servicetype/update', 'AdminController@servicetypeUpd');
         Route::get('/admin/servicetype/delete/{id}','AdminController@servicetypeDelete');
 
+        // ------------------- Lookup Rating ------------------- //
+        Route::get('/admin/rating/list', 'AdminController@ratingList');
+        Route::get('/admin/rating/add', 'AdminController@ratingAdd');
+            Route::post('/admin/rating/save', 'AdminController@ratingSave');
+        Route::get('/admin/rating/edit/{id}', 'AdminController@ratingEdit');
+            Route::post('/admin/rating/update', 'AdminController@ratingUpd');
+        Route::get('/admin/rating/delete/{id}','AdminController@ratingDelete');
+
 
 
 

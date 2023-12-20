@@ -3,7 +3,7 @@
 
 <div class="bg-light py-4">
     <div class="container">
-        <h5 class="header-style m-0">Edit Type of Services</h5>
+        <h5 class="header-style m-0">Edit Rating</h5>
     </div>
 </div>
 
@@ -14,22 +14,29 @@
     <div class="card style-border">
         <div class="card-body p-md-4">
 
-        {!! form()->open()->post()->action(url('/admin/servicetype/update'))->attribute('id', 'myform')->horizontal() !!}
+        {!! form()->open()->post()->action(url('/admin/rating/update'))->attribute('id', 'myform')->horizontal() !!}
 
-        <input type="hidden" name="id" value="{{ data_get($viewsrvtype,'id') }}"/>
+        <input type="hidden" name="id" value="{{ data_get($$viewrate,'id') }}"/>
 
         <div id="div-individu" style="">
             <div class="row mb-3">
-                <label for="" class="col-sm-2 col-form-label">Type of Services</label>
+                <label for="" class="col-sm-2 col-form-label">Rate</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="name" name="name" value="{{ data_get($viewsrvtype, 'name') }}">
+                    <select class="form-select" id="rate" name="rate">
+                        <option value=""> Please Select</option>
+                        <option value="*" <?php if(data_get($$viewrate,'rate')==1){echo "selected" ;}?>> * </option>
+                        <option value="**" <?php if(data_get($$viewrate,'rate')==2){echo "selected" ;}?>> *&nbsp;* </option>
+                        <option value="***" <?php if(data_get($$viewrate,'rate')==3){echo "selected" ;}?>> *&nbsp;*&nbsp;* </option>
+                        <option value="****" <?php if(data_get($$viewrate,'rate')==4){echo "selected" ;}?>> *&nbsp;*&nbsp;*&nbsp;* </option>
+                        <option value="*****" <?php if(data_get($$viewrate,'rate')==5){echo "selected" ;}?>> *&nbsp;*&nbsp;*&nbsp;*&nbsp;* </option>
+                    </select>
                 </div>
             </div>
 
             <div class="row mb-3">
                 <label for="" class="col-sm-2 col-form-label">Description</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="desc" name="desc" value="{{ data_get($viewsrvtype, 'desc') }}">
+                    <input type="text" class="form-control" id="desc" name="desc" value="{{ data_get($$viewrate, 'desc') }}">
                 </div>
             </div>
 
@@ -38,18 +45,16 @@
                 <div class="col-sm-10">
                     <select class="form-select" id="status" name="status">
                         <option value=""> Please Select</option>
-                        <option value="1" <?php if(data_get($viewsrvtype,'status')==1){echo "selected" ;}?>> Active </option>
-                        <option value="0" <?php if(data_get($viewsrvtype,'status')==0){echo "selected" ;}?>> Not Active </option>
+                        <option value="1" <?php if(data_get($$viewrate,'status')==1){echo "selected" ;}?>> Active </option>
+                        <option value="0" <?php if(data_get($$viewrate,'status')==0){echo "selected" ;}?>> Not Active </option>
                     </select>
                 </div>
             </div>
 
-            <a href="/admin/servicetype/list" class="btn btn-dark">Back</a>
+            <a href="/admin/rating/list" class="btn btn-dark">Back</a>
             <button type="submit" class="btn btn-primary">Update</button>
         </div>
         {!! form()->close()!!}
-
-
 
 
         </div>

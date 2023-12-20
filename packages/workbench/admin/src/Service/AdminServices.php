@@ -23,13 +23,13 @@ use Mail;
 use Curl;
 use DB;
 use Svg\Tag\Rect;
+use Workbench\Database\Model\Agency\LkpRating;
 use Workbench\Database\Model\Agency\LkpServiceType;
 
 class AdminServices
 {
 
     // ------------------- Lookup Service Type ------------------- //
-
     public function srvtypeList(Request $request)
     {
         $user           = Auth::user()->id;
@@ -70,13 +70,64 @@ class AdminServices
         $srvtype->desc                      = $request->desc;
         $srvtype->status                    = $request->status;
         $srvtype->save();
-        
+
     }
 
     public function srvtypeDelete(Request $request)
     {
         $srvtype                            = LkpServiceType::where('id', $request->id)->first();
         $srvtype->delete();
+
+    }
+
+    // ------------------- Lookup Rating ------------------- //
+    public function rateList(Request $request)
+    {
+        $user           = Auth::user()->id;
+
+        $rate           = LkpRating::get();
+        
+        return $rate;
+    }
+
+    public function rateAdd(Request $request)
+    {
+        $user                            = Auth::user()->id;
+
+        $rate                            = new LkpRating();
+        $rate->desc                      = $request->desc;
+        $rate->rate                      = $request->rate;
+        $rate->status                    = $request->status;
+        $rate->save();
+
+    }
+
+    public function rateView(Request $request)
+    {
+        $user = Auth::user()->id;
+        $roleid = Auth::user()->roles[0]->id;
+
+       
+        $rate = LkpRating::where('id', $request->id)->first();
+
+        return $rate;
+    }
+
+
+    public function rateUpd(Request $request)
+    {
+        $rate                            = LkpRating::where('id', $request->id)->first();
+        $rate->desc                      = $request->desc;
+        $rate->rate                      = $request->rate;
+        $rate->status                    = $request->status;
+        $rate->save();
+
+    }
+
+    public function rateDelete(Request $request)
+    {
+        $rate                            = LkpRating::where('id', $request->id)->first();
+        $rate->delete();
 
     }
   

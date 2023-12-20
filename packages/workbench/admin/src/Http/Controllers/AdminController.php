@@ -79,6 +79,50 @@ class AdminController extends Controller
     }
 
 
+    // ------------------- Lookup Rating ------------------- //
+    public function ratingList(Request $request)
+    {
+      $rate = (new AdminServices())->rateList($request);
+
+      return view('admin::admin.rating.list', compact('rate'));
+    }
+
+    public function ratingAdd(Request $request)
+    {
+      $rate = (new AdminServices())->rateList($request);
+
+      return view('admin::admin.rating.add', compact('rate'));
+    }
+
+    public function ratingSave(Request $request)
+    {
+      $rate = (new AdminServices())->rateAdd($request);
+
+      return redirect('/admin/rating/list')->withSuccess('Add Data Successfully');
+    }
+
+    public function ratingEdit(Request $request)
+    {
+        $viewrate = (new AdminServices())->rateView($request);
+
+    return view('admin::admin.rating.edit',compact('viewrate'));
+    }
+
+    public function ratingUpd(Request $request)
+    {
+        $rate = (new AdminServices())->rateUpd($request);
+
+        return redirect('/admin/rating/list')->withSuccess('Successfully Update');
+    }
+
+    public function ratingDelete(Request $request)
+    {
+        $rate = (new AdminServices())->rateDelete($request);
+
+        return redirect('/admin/rating/list')->withSuccess('Successfully Delete');
+    }
+
+
     
 
 
