@@ -23,9 +23,6 @@ Route::group(
         Route::get('/dashboard/agency','DashboardController@agency');
         Route::get('/dashboard/updatetroli/{payerbill}/{fkuser}','DashboardController@updatetroli');
         
-
-
-
     }
 );
 

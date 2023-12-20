@@ -47,21 +47,10 @@ class DashboardController extends Controller
             case 2:
                 // admin system
                 // return view('web::backend.dashboard.index');
-                // return redirect(url('dashboard/admin'));
                 $account = (new DashboardServices())->payerAcc($request);
                 $payment = (new DashboardServices())->payment($request);
                 $nopayment = (new DashboardServices())->noPayment($request);
-                // $totalpayment = (new DashboardServices())->barChartTotalPayment($request);
-                // $barChartTotalPaymentLabel = $totalpayment['totalpayment_label'];
-                // $barChartTotalPaymentData = $totalpayment['totalpayment_data'];
                 $diffhasil = (new DashboardServices())->lineChartDiffHasil($request);
-                // $paygatewayxhasil = (new DashboardServices())->paygatewayxhasil($request);
-                // $chartdailypaymentbyptj = (new DashboardServices())-> chartdailypaymentbyptj($request);
-                // $chartdailypaymentbyagency = (new DashboardServices())-> chartdailypaymentbyagency($request);
-                // $chartmonthlypaymentbyagency = (new DashboardServices())-> chartmonthlypaymentbyagency($request);
-                // $chartannualpaymentbyagency = (new DashboardServices())-> chartannualpaymentbyagency($request);
-                // $charthighestpendapatan = (new DashboardServices())-> charthighestpendapatan($request);
-                // $chartlowestpendapatan = (new DashboardServices())-> chartlowestpendapatan($request);
 
                 return view('dashboard::dashboard.admin', compact('account','payment','nopayment','diffhasil'));
 
@@ -69,18 +58,7 @@ class DashboardController extends Controller
 
             case 3:
                 //admin kewangan
-                // return view('web::backend.dashboard.index');
-                // $totalpayment = (new DashboardServices())->barChartTotalPayment($request);
-                // $barChartTotalPaymentLabel = $totalpayment['totalpayment_label'];
-                // $barChartTotalPaymentData = $totalpayment['totalpayment_data'];
-                // $diffhasil = (new DashboardServices())->lineChartDiffHasil($request);
-                // $chartdailypaymentbyagency = (new DashboardServices())-> chartdailypaymentbyagency($request);
-                // $chartmonthlypaymentbyagency = (new DashboardServices())-> chartmonthlypaymentbyagency($request);
-                // $chartannualpaymentbyagency = (new DashboardServices())-> chartannualpaymentbyagency($request);
-                // $carabayaranxagensi = (new DashboardServices())-> carabayaranxagensi($request);
-                // $charthighestpendapatan = (new DashboardServices())-> charthighestpendapatan($request);
-                // $chartlowestpendapatan = (new DashboardServices())-> chartlowestpendapatan($request);
-
+                
                 return view('dashboard::dashboard.kewangan');
                 break;
 

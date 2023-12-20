@@ -16,6 +16,20 @@ Route::group(
         //registry
         Route::get('/admin/index','AdminController@index');
 
+        // ------------------- Lookup Service Type ------------------- //
+        Route::get('/admin/servicetype/list', 'AdminController@servicetypeList');
+        Route::get('/admin/servicetype/add', 'AdminController@servicetypeAdd');
+            Route::post('/admin/servicetype/save', 'AdminController@servicetypeSave');
+        Route::get('/admin/servicetype/edit/{id}', 'AdminController@servicetypeEdit');
+            Route::post('/admin/servicetype/update', 'AdminController@servicetypeUpd');
+        Route::get('/admin/servicetype/delete/{id}','AdminController@servicetypeDelete');
+
+
+
+
+
+
+
         //pengurusan agensi
         Route::get('/admin/agency/list', 'AgencyController@agencyList');
         Route::get('/admin/agency/add', 'AgencyController@agencyAdd');
