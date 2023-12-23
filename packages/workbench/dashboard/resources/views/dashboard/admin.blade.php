@@ -10,12 +10,11 @@
 
     <div class="bg-light py-4">
         <div class="container">
-            <h5 class="header-style m-0">Dashboard</h5>
+            <h5 class="header-style m-0">WELCOME {{ $user->name}} !</h5>
         </div>
     </div>
 
     <div class="container my-5">
-        <h5>Selamat Datang</h5>
         <div class="row mt-4">
             <div class="col-md-4">
                 <div class="box-widget stats-info">
@@ -26,9 +25,9 @@
                             </div>
                         </div>
                         <div class="col-9">
-                            <h6 class="text-muted text-uppercase">Pemilik akaun</h6>
+                            <h6 class="text-muted text-uppercase">Total of Customer</h6>
                             <h2 class="m-0">
-                                {{-- {{ $account }} --}}
+                                {{ $totalCust }}
                             </h2>
                         </div>
                     </div>
@@ -43,9 +42,9 @@
                             </div>
                         </div>
                         <div class="col-9">
-                            <h6 class="text-muted text-uppercase">Bayaran</h6>
+                            <h6 class="text-muted text-uppercase">Total of Handyman</h6>
                             <h2 class="m-0">
-                                {{-- {{ $payment }} --}}
+                                {{ $totalHandyman }}
                             </h2>
                         </div>
                     </div>
@@ -56,13 +55,67 @@
                     <div class="row align-items-center">
                         <div class="col-3">
                             <div class="icon">
-                                <i class="ri-user-2-line"></i>
+                                <i class="ri-hammer-line"></i>
                             </div>
                         </div>
                         <div class="col-9">
-                            <h6 class="text-muted text-uppercase">Belum bayar</h6>
+                            <h6 class="text-muted text-uppercase">Total of Services</h6>
                             <h2 class="m-0">
-                                {{-- {{ $nopayment }} --}}
+                                {{ $totalServices }}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="box-widget stats-info">
+                    <div class="row align-items-center">
+                        <div class="col-3">
+                            <div class="icon">
+                                <i class="ri-add-line"></i>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <h6 class="text-muted text-uppercase">Total of New Booking</h6>
+                            <h2 class="m-0">
+                                {{ $totalBookingNew }}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box-widget stats-success">
+                    <div class="row align-items-center">
+                        <div class="col-3">
+                            <div class="icon">
+                                <i class="ri-check-double-line"></i>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <h6 class="text-muted text-uppercase">Total of Booking Completed</h6>
+                            <h2 class="m-0">
+                                {{ $totalBookingDone }}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box-widget stats-danger">
+                    <div class="row align-items-center">
+                        <div class="col-3">
+                            <div class="icon">
+                                <i class="ri-close-line"></i>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <h6 class="text-muted text-uppercase">Total of Booking Rejected</h6>
+                            <h2 class="m-0">
+                                {{ $totalBookingReject }}
                             </h2>
                         </div>
                     </div>

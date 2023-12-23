@@ -16,6 +16,14 @@ Route::group(
         //registry
         Route::get('/admin/index','AdminController@index');
 
+        // ------------------- Lookup Users ------------------- //
+        Route::get('/admin/users/list', 'AdminController@usersList');
+        Route::get('/admin/users/add', 'AdminController@usersAdd');
+            Route::post('/admin/users/save', 'AdminController@usersSave');
+        Route::get('/admin/users/edit/{id}', 'AdminController@usersEdit');
+            Route::post('/admin/users/update', 'AdminController@usersUpd');
+        Route::get('/admin/users/delete/{id}','AdminController@usersDelete');
+
         // ------------------- Lookup Service Type ------------------- //
         Route::get('/admin/servicetype/list', 'AdminController@servicetypeList');
         Route::get('/admin/servicetype/add', 'AdminController@servicetypeAdd');

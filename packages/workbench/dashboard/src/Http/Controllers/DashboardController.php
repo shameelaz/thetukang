@@ -47,12 +47,15 @@ class DashboardController extends Controller
             case 2:
                 // admin system
                 // return view('web::backend.dashboard.index');
-                $account = (new DashboardServices())->payerAcc($request);
-                $payment = (new DashboardServices())->payment($request);
-                $nopayment = (new DashboardServices())->noPayment($request);
-                $diffhasil = (new DashboardServices())->lineChartDiffHasil($request);
+                $user = (new DashboardServices())->user($request);
+                $totalCust = (new DashboardServices())->totalCust($request);
+                $totalHandyman = (new DashboardServices())->totalHandyman($request);
+                $totalServices = (new DashboardServices())->totalServices($request);
+                $totalBookingDone = (new DashboardServices())->totalBookingDone($request);
+                $totalBookingNew = (new DashboardServices())->totalBookingNew($request);
+                $totalBookingReject = (new DashboardServices())->totalBookingReject($request);
 
-                return view('dashboard::dashboard.admin', compact('account','payment','nopayment','diffhasil'));
+                return view('dashboard::dashboard.admin', compact('user','totalCust','totalHandyman','totalServices','totalBookingDone','totalBookingNew','totalBookingReject'));
 
                 break;
 

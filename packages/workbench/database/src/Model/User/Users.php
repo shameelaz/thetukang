@@ -35,6 +35,11 @@ class Users extends Model
         return $this->hasMany('Overdrive\Web\Model\Urole','user_id','id');
     }
 
+    public function aclroleuser()
+    {
+        return $this->hasMany('Workbench\Database\Model\User\AclRoleUser','user_id','id');
+    }
+
     /**
      * undocumented function
      *

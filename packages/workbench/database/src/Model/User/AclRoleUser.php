@@ -40,4 +40,8 @@ class AclRoleUser extends Model
         return $this->belongsTo('Workbench\Database\Model\ARole','role_id','id');
     }
 
+    public function arole()
+    {
+        return $this->hasOne('Workbench\Database\Model\User\ARole','id','role_id');
+    }
 }

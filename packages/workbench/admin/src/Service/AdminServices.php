@@ -6,10 +6,6 @@ use Illuminate\Routing\Controller;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use Overdrive\Web\Model\Menus;
-use Overdrive\Web\Model\Mpermission;
-use Overdrive\Web\Model\ARole;
-use Overdrive\Web\Model\Urole;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
@@ -25,9 +21,71 @@ use DB;
 use Svg\Tag\Rect;
 use Workbench\Database\Model\Agency\LkpRating;
 use Workbench\Database\Model\Agency\LkpServiceType;
+use Workbench\Database\Model\User\AclRoleUser;
+use Workbench\Database\Model\User\ARole;
+use Workbench\Database\Model\User\UserProfile;
+use Workbench\Database\Model\User\Users;
 
 class AdminServices
 {
+    // ------------------- Lookup Users ------------------- //
+    public function ursList(Request $request)
+    {
+        $user           = Auth::user()->id;
+        
+        $urs            = Users::with('profile','aclroleuser.arole')->get();
+        
+        return $urs;
+    }
+
+    public function ursAdd(Request $request)
+    {
+        $user                           = Auth::user()->id;
+
+        $urs                            = new Users();
+        $urs->name                      = $request->name;
+        $urs->desc                      = $request->desc;
+        $urs->status                    = $request->status;
+        $urs->save();
+
+    }
+
+    public function ursView(Request $request)
+    {
+        $user = Auth::user()->id;
+        $roleid = Auth::user()->roles[0]->id;
+       
+        $urs = Users::with('profile','aclroleuser.arole')->where('id', $request->id)->first();
+        
+        return $urs;
+    }
+
+
+    public function ursUpd(Request $request)
+    {
+        $urs                            = Users::with('profile','aclroleuser.arole')->where('id', $request->id)->first();
+        $urs->name                      = $request->name;
+        $urs->email                     = $request->email;
+        $urs->status                    = $request->status;
+        $urs->aclroleuser->role_id      = $request->role_id;
+        $urs->save();
+
+        $profile                        = UserProfile::where('fk_users', $urs->id)->first();
+        $profile->mobile_no             = $request->mobile_no;
+        $profile->save();
+        
+        // $role                           = AclRoleUser::where('user_id', $urs->id)->first();
+        // $role->role_id                  = $request->role_id;
+        // $role->save();
+
+    }
+
+    public function ursDelete(Request $request)
+    {
+        $urs                            = Users::with('profile','aclroleuser.arole')->where('id', $request->id)->first();
+        $urs->delete();
+
+    }
 
     // ------------------- Lookup Service Type ------------------- //
     public function srvtypeList(Request $request)

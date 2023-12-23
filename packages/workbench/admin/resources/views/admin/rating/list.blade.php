@@ -38,7 +38,7 @@ if (Session::has('locale')) {
                     <div class="col-md-12 col-lg-12">
 
                         <div class="table-responsive">
-                            <table id="data-table-srvtype" class="table mt-2" style="width:100%;font-size: 12px;">
+                            <table id="data-table-srvtype" class="table table-bordered table-striped mt-2" style="width:100%;font-size: 12px; vertical-align: middle;">
                                 <thead class="table-dark">
                                     <tr>
                                         <th style="text-align: center;">&nbsp;</th>

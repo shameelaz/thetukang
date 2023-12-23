@@ -42,6 +42,7 @@ use Workbench\Database\Model\View\Chart\VWChartTahunanByAgency;
 use Workbench\Database\Model\View\Chart\VWCaraBayaranXAgensi;
 use Workbench\Database\Model\View\Chart\VWPendapatanByKodHasil;
 use Illuminate\Support\Collection;
+use Workbench\Database\Model\Agency\LkpServiceType;
 use Workbench\Database\Model\Bill\Payer;
 use Workbench\Database\Model\Payment\ServiceMain;
 use Workbench\Database\Model\Payment\ServiceMainDetail;
@@ -51,7 +52,68 @@ use Workbench\Database\Model\User\Users;
 
 class DashboardServices
 {
+    //ADMIN DASHBOARD
+    public function totalCust(Request $request)
+    {
+        // $user = Auth::user()->id;
 
+        $total = Users::with('aclroleuser')
+                        ->whereHas('aclroleuser', function ($q)  {
+                            $q->where('role_id', 7);
+                        })
+                        ->count();
+        return $total;
+    }
+
+    public function totalHandyman(Request $request)
+    {
+        // $user = Auth::user()->id;
+
+        $total = Users::with('aclroleuser')
+                        ->whereHas('aclroleuser', function ($q)  {
+                            $q->where('role_id', 4);
+                        })
+                        ->count();
+        return $total;
+    }
+
+    public function totalServices(Request $request)
+    {
+        // $user = Auth::user()->id;
+
+        $total = LkpServiceType::count();
+
+        return $total;
+    }
+
+    public function totalBookingDone(Request $request)
+    {
+        // $user = Auth::user()->id;
+
+        $total = Booking::where('status', 2)->count();
+
+        return $total;
+    }
+
+    public function totalBookingNew(Request $request)
+    {
+        // $user = Auth::user()->id;
+
+        $total = Booking::where('status', 1)->count();
+
+        return $total;
+    }
+
+    public function totalBookingReject(Request $request)
+    {
+        // $user = Auth::user()->id;
+
+        $total = Booking::where('status', 3)->count();
+
+        return $total;
+    }
+
+    
     //CUSTOMER BOOKING LIST
     public function bookingList(Request $request)
     {

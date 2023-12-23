@@ -35,6 +35,49 @@ class AdminController extends Controller
 
     }
 
+    // ------------------- Lookup Users ------------------- //
+    public function usersList(Request $request)
+    {
+      $urs = (new AdminServices())->ursList($request);
+
+      return view('admin::admin.users.list', compact('urs'));
+    }
+
+    public function usersAdd(Request $request)
+    {
+      $urs = (new AdminServices())->ursList($request);
+
+      return view('admin::admin.users.add', compact('urs'));
+    }
+
+    public function usersSave(Request $request)
+    {
+      $urs = (new AdminServices())->ursAdd($request);
+
+      return redirect('/admin/users/list')->withSuccess('Add Data Successfully');
+    }
+
+    public function usersEdit(Request $request)
+    {
+        $viewurs = (new AdminServices())->ursView($request);
+
+    return view('admin::admin.users.edit',compact('viewurs'));
+    }
+
+    public function usersUpd(Request $request)
+    {
+        $urs = (new AdminServices())->ursUpd($request);
+
+        return redirect('/admin/users/list')->withSuccess('Successfully Update');
+    }
+
+    public function usersDelete(Request $request)
+    {
+        $urs = (new AdminServices())->ursDelete($request);
+
+        return redirect('/admin/users/list')->withSuccess('Successfully Delete');
+    }
+
     // ------------------- Lookup Service Type ------------------- //
     public function servicetypeList(Request $request)
     {
