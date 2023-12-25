@@ -1,0 +1,20 @@
+.list-base {
+    padding: 0;
+    margin: 0;
+    li {
+        list-style: none;
+        a {
+            color: $text-muted;
+            text-decoration: none;
+            @extend .py-3;
+            @extend .py-md-2;
+            &:hover {
+                color: $dark;
+            }
+            // active
+            &.active {
+                color: $dark;
+            }
+        }
+    }
+}

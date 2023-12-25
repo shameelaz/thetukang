@@ -1,0 +1,43 @@
+// grayscale
+$white:    #fff;
+$gray-100: #F9FAFB;
+$gray-200: #E7EAEF;
+$gray-300: #C2CAD6;
+$gray-400: #9DAABE;
+$gray-500: #788AA5;
+$gray-600: #5A6C87;
+$gray-700: #435165;
+$gray-800: #2D3643;
+$gray-900: #161B22;
+$black:    #000;
+
+$primary: #E6C208;
+$success: #00E7C6;
+$info: #00C9FF;
+$warning: #fcbf49;
+$danger: #cc0022;
+$dark: #161B22;
+
+$theme-colors: (
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "light": $light,
+    "dark": $dark,
+    "gray": $gray-600
+);
+
+$grays: (
+  "100": $gray-100,
+  "200": $gray-200,
+  "300": $gray-300,
+  "400": $gray-400,
+  "500": $gray-500,
+  "600": $gray-600,
+  "700": $gray-700,
+  "800": $gray-800,
+  "900": $gray-900
+);
