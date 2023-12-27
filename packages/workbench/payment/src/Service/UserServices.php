@@ -180,21 +180,34 @@ class UserServices
         $formattedNow                   = $now->format('Y-m-d');
 
         $booking                        = MainService::with('lkpservicetype','user.profile','promotion')->where('id', $request->id)->first();
-        
-        $mainservice_id  = MainService::with('promotion')
-                                    ->whereHas('promotion', function ($q) use($request) {
-                                        $q->where('id', $request->pid);
-                                    })
-                                    ->first();
 
-        $book                            = new Booking();
-        $book->fk_user                   = $user;
-        $book->fk_main_service           = $request->id;
-        $book->title                     = $request->title;
-        $book->desc                      = $request->desc;
-        $book->date_booking              = date('Y-m-d',strtotime($request->date_booking));
-        $book->status                    = 1; // new booking
-        $book->save();
+        if ($request->pid != null) {
+            $mainservice_id                  = MainService::with('promotion')
+                                                            ->whereHas('promotion', function ($q) use($request) {
+                                                                $q->where('id', $request->pid);
+                                                            })
+                                                            ->first();
+
+            $book                            = new Booking();
+            $book->fk_user                   = $user;
+            $book->fk_main_service           = $request->id;
+            $book->title                     = $request->title;
+            $book->desc                      = $request->desc;
+            $book->date_booking              = date('Y-m-d',strtotime($request->date_booking));
+            $book->status                    = 1; // new booking
+            $book->save();
+        } else {
+            $mainservice_id  = MainService::where('id', $request->id)->first();
+            
+            $book                            = new Booking();
+            $book->fk_user                   = $user;
+            $book->fk_main_service           = $request->id;
+            $book->title                     = $request->title;
+            $book->desc                      = $request->desc;
+            $book->date_booking              = date('Y-m-d',strtotime($request->date_booking));
+            $book->status                    = 1; // new booking
+            $book->save();
+        }
         
         if (count($mainservice_id->promotion) > 0)
         
