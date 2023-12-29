@@ -213,7 +213,7 @@
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if(inputText.value.match(mailformat))
         {
-            document.querySelector("#resultemail").innerHTML="<span style='color:green;'>Emel Sah</span>";
+            document.querySelector("#resultemail").innerHTML="<span style='color:green;'>Email Verified</span>";
             return true;
         }else{
 
