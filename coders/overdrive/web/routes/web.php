@@ -90,8 +90,8 @@ Route::group(
         // Route::post('reset-password', ['uses' => 'UserController@submitResetPasswordForm'])->name('reset.password.post');
 
 
-        // Route::get('user/forgot',['uses' => 'UserController@formForgot'])->name('user.forgot');
-        // Route::post('user/svforgot',['uses' => 'UserController@resetPassword'])->name('store.forgot');
+        Route::get('user/forgot',['uses' => 'UserController@formForgot'])->name('user.forgot');
+        Route::post('user/svforgot',['uses' => 'UserController@resetPassword'])->name('store.forgot');
 
 
 

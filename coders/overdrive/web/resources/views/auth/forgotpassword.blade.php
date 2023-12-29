@@ -20,23 +20,21 @@
 
     	<div class="hstack gap-3">
             <img src="{{ asset('overide/web/themes/perakepay/assets/images/logo/logo-handyman.png') }}" class="logo" />
-            <img src="{{ asset('overide/web/themes/perakepay/assets/images/logo/logo-perak-epay.svg') }}"
-                style="height:40px" />
         </div>
 
-        <h5 class="mt-5"><i class="ri-shield-keyhole-line"></i> @lang('web::auth.forgot_password')</h5>
+        <h5 class="mt-5"><i class="ri-shield-keyhole-line"></i> Forgot Password</h5>
         {!! form()->open()->post()->action(url('/user/svforgot'))->attribute('id', 'form-forgot')->horizontal() !!}
         <!-- <form class="login-form" method="POST" action="{{ url('/user/svforgot') }}"> -->
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div>
                 <label for="exampleFormControlInput1" class="form-label">
-                    @lang('web::auth.email')</label>
-                <input id="email" type="email" name="email" placeholder="@lang('web::auth.email')" class="form-control" required>
+                    Email</label>
+                <input id="email" type="email" name="email" placeholder="Email" class="form-control" required>
             </div>
 
-            <button type="submit" class="btn btn-primary mt-4">@lang('web::auth.send_reset_password_link')</button>
+            <button type="submit" class="btn btn-primary mt-4">Send password to email for reset link</button>
             <a href="/auth/login">
-            	<button type="button" class="btn btn-primary mt-4">@lang('web::auth.login')</button>
+            	<button type="button" class="btn btn-primary mt-4">Login</button>
             </a>
         <!-- </form> -->
         {!!form()->close()!!}
